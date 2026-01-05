@@ -26,7 +26,7 @@ class FuelMeasurementTest {
         val formatted = measurement.getFormattedFuelKilograms()
 
         // Assert
-        assertEquals("7,46 kg", formatted)
+        assertEquals("7.46 kg", formatted)
     }
 
     @Test
@@ -47,7 +47,7 @@ class FuelMeasurementTest {
         val formatted = measurement.getFormattedPercentage()
 
         // Assert
-        assertEquals("74,6%", formatted)
+        assertEquals("74.6%", formatted)
     }
 
     @Test
@@ -68,7 +68,7 @@ class FuelMeasurementTest {
         val formatted = measurement.getFormattedTotalWeight()
 
         // Assert
-        assertEquals("12,46 kg", formatted)
+        assertEquals("12.46 kg", formatted)
     }
 
     @Test
