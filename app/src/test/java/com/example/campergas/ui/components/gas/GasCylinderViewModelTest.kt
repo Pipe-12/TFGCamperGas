@@ -102,7 +102,7 @@ class GasCylinderViewModelTest {
             isActive = true
         )
 
-
+        // Act
         activeCylinderFlow.value = testCylinder
         advanceUntilIdle()
 
