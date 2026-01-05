@@ -1,0 +1,338 @@
+<resources>
+    <string name="app_name">CamperGas</string>
+
+    <!-- Widget descriptions -->
+    <string name="gas_cylinder_widget_description">Controla el nivell de gas de la teva bombona des de la pantalla d\'inici</string>
+    <string name="vehicle_stability_widget_description">Verifica l\'estabilitat del teu vehicle en temps real</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Configuració</string>
+    <string name="settings_status">Estat</string>
+    <string name="settings_appearance">Aparença</string>
+    <string name="settings_dark_mode">Mode fosc</string>
+    <string name="settings_use_system_config">Utilitza la configuració del sistema</string>
+    <string name="settings_notifications">Notificacions</string>
+    <string name="settings_enable_notifications">Activa les notificacions</string>
+    <string name="settings_gas_threshold">Llindar d\'alerta de gas</string>
+    <string name="settings_gas_threshold_description">S\'enviarà una notificació quan el gas baixi del %d%%</string>
+    <string name="settings_weight_reading">Lectura de pes</string>
+    <string name="settings_weight_interval_description">Interval entre lectures de pes del sensor</string>
+    <string name="settings_weight_range">Interval vàlid: 1–60 minuts</string>
+    <string name="settings_inclination_reading">Lectura d\'inclinació</string>
+    <string name="settings_inclination_interval_description">Interval entre lectures d\'inclinació del sensor</string>
+    <string name="settings_inclination_range">Interval vàlid: 1–300 segons</string>
+    <string name="settings_information">Informació</string>
+    <string name="settings_info_short_intervals">• Els intervals més curts proporcionen dades més freqüents però poden consumir més bateria</string>
+    <string name="settings_info_long_intervals">• Els intervals més llargs estalvien bateria però proporcionen dades menys freqüents</string>
+    <string name="settings_info_defaults">• Pes: 1 minut per defecte, Inclinació: 5 segons per defecte</string>
+    <string name="settings_info_auto_save">• Els canvis es guarden automàticament</string>
+
+    <!-- Theme modes -->
+    <string name="theme_system">Seguint la configuració del sistema</string>
+    <string name="theme_light">Mode clar activat</string>
+    <string name="theme_dark">Mode fosc activat</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_description">Selecciona el tema de l\'aplicació</string>
+    <string name="theme_mode_light">Clar</string>
+    <string name="theme_mode_dark">Fosc</string>
+    <string name="theme_mode_system">Sistema</string>
+
+    <string name="settings_language">Idioma</string>
+    <string name="settings_language_description">Selecciona l\'idioma de l\'aplicació</string>
+    <string name="settings_language_hint">Els textos s\'actualitzen a l\'instant</string>
+    <string name="language_option_system">Utilitza l\'idioma del sistema</string>
+    <string name="language_option_spanish">Espanyol</string>
+    <string name="language_option_english">Anglès</string>
+    <string name="language_option_catalan">Català</string>
+
+    <!-- Common -->
+    <string name="save">Desa</string>
+    <string name="save_threshold">Desa el llindar</string>
+    <string name="percentage_minimum_gas">Percentatge mínim de gas</string>
+    <string name="configuration">Configuració</string>
+
+    <!-- Home Screen -->
+    <string name="home_summary">Resum</string>
+    <string name="home_consumption_24h">24h: %.1f kg</string>
+    <string name="home_consumption_7d">7d: %.1f kg</string>
+
+    <!-- Permission dialogs -->
+    <string name="dialog_accept">Accepta</string>
+    <string name="dialog_cancel">Cancel·la</string>
+    <string name="permissions_needed_title">Permisos necessaris</string>
+    <string name="permissions_needed_message">CamperGas necessita permisos de Bluetooth i ubicació per funcionar correctament.</string>
+    <string name="bluetooth_disabled_title">Bluetooth desactivat</string>
+    <string name="bluetooth_disabled_message">Per utilitzar CamperGas cal activar el Bluetooth. Vols activar-lo ara?</string>
+    <string name="bluetooth_disabled_enable">Activa el Bluetooth</string>
+
+    <!-- BLE Connect Screen -->
+    <string name="ble_connection_title">Connexió Bluetooth</string>
+    <string name="ble_back_button">Torna</string>
+    <string name="ble_only_compatible_devices">Només dispositius CamperGas</string>
+    <string name="ble_searching_devices">Cercant dispositius BLE…</string>
+    <string name="ble_error_title">Error</string>
+    <string name="ble_available_devices">Dispositius disponibles (%d)</string>
+    <string name="ble_no_devices_found">No s\'han trobat dispositius</string>
+    <string name="ble_press_search_to_scan">Prem \'Cercar\' per escanejar</string>
+    <string name="ble_compatible_badge">✓ Compatible</string>
+    <string name="ble_rssi_format">RSSI: %d dBm</string>
+    <string name="ble_services_available">Serveis: %d disponibles</string>
+    <string name="ble_not_compatible">No compatible amb CamperGas</string>
+    <string name="ble_search_button">Cerca</string>
+    <string name="ble_stop_button">Atura</string>
+    <string name="ble_close_button">Tanca</string>
+    <string name="ble_disconnect_button">Desconnecta</string>
+    <string name="ble_sensor_connected">Sensor connectat</string>
+    <string name="ble_bluetooth_connection">Connexió Bluetooth</string>
+    <string name="ble_connected_device_info">%s • Per canviar de sensor, desconnecta primer</string>
+    <string name="ble_scanning_devices">Escanejant dispositius…</string>
+    <string name="ble_search_devices">Cerca dispositius BLE</string>
+    <string name="ble_signal_strength_description">Senyal: %s</string>
+
+    <!-- Consumption Screen -->
+    <string name="consumption_title">Historial de consum</string>
+    <string name="consumption_date_filters">Filtres de data</string>
+    <string name="consumption_clear_filter">Neteja</string>
+    <string name="consumption_filter_24h">24h</string>
+    <string name="consumption_filter_7d">7 dies</string>
+    <string name="consumption_filter_30d">30 dies</string>
+    <string name="consumption_start_date">Data d\'inici</string>
+    <string name="consumption_end_date">Data de fi</string>
+    <string name="consumption_from_date">Des de: %s</string>
+    <string name="consumption_to_date">Fins a: %s</string>
+    <string name="consumption_summary_title">Resum de consum</string>
+    <string name="consumption_kg_consumed">kg consumits</string>
+    <string name="consumption_last_24h">Últimes 24h</string>
+    <string name="consumption_last_week">Última setmana</string>
+    <string name="consumption_last_month">Últim mes</string>
+    <string name="consumption_selected_period">Període seleccionat</string>
+    <string name="consumption_chart_title">Gràfic de consum diari</string>
+    <string name="consumption_chart_minimum_data">Es necessiten almenys 2 dies de dades per mostrar el gràfic</string>
+    <string name="consumption_accept">Accepta</string>
+    <string name="consumption_cancel">Cancel·la</string>
+
+    <!-- Inclination Screen -->
+    <string name="inclination_title">Inclinació del vehicle</string>
+    <string name="inclination_waiting_sensor">Esperant dades del sensor…</string>
+    <string name="inclination_connect_sensor_first">Connecta el sensor primer</string>
+    <string name="inclination_wait_between_requests">Espera 2 segons entre peticions</string>
+    <string name="inclination_requesting">Sol·licitant…</string>
+    <string name="inclination_request_data">Sol·licita dades</string>
+    <string name="inclination_update_inclination">Actualitza la inclinació</string>
+    <string name="inclination_vehicle_leveled">VEHICLE NIVELLAT</string>
+    <string name="inclination_vehicle_unleveled">VEHICLE DESNIVELLAT</string>
+    <string name="inclination_visualization_title">Visualització del nivellat</string>
+    <string name="inclination_vehicle_type">Tipus de vehicle: %s</string>
+    <string name="inclination_vehicle_caravan">Caravana</string>
+    <string name="inclination_vehicle_motorhome">Autocaravana</string>
+    <string name="inclination_config_required">Configuració necessària</string>
+    <string name="inclination_config_message">Per mostrar les estimacions d\'elevació de rodes, configura les dimensions del vehicle a la secció de configuració.</string>
+    <string name="inclination_sensor_info">Informació del sensor</string>
+    <string name="inclination_last_update">Última actualització: %s</string>
+    <string name="inclination_pitch_leveled">Nivellat</string>
+    <string name="inclination_pitch_unleveled">Desnivellat</string>
+    <string name="inclination_pitch_status">Estat Pitch: %s</string>
+    <string name="inclination_roll_status">Estat Roll: %s</string>
+    <string name="inclination_sensor_not_connected">Sensor no connectat</string>
+    <string name="inclination_info_title">Informació</string>
+    <string name="inclination_info_text">• Tolerància de nivellació: ±2°\n• Pitch: Inclinació frontal/posterior (capcineig)\n• Roll: Inclinació lateral (balanceig)\n• Pitch + = front cap amunt\n• Roll + = dreta cap amunt</string>
+
+    <!-- Weight Screen -->
+    <string name="weight_title">Monitoratge de combustible</string>
+    <string name="weight_fuel_monitor">Monitor de combustible</string>
+    <string name="weight_last_measurement">Última mesura: %s</string>
+    <string name="weight_sensor_not_connected">Sensor no connectat</string>
+    <string name="weight_wait_between_requests">Espera 2 segons entre peticions</string>
+    <string name="weight_requesting">Sol·licitant…</string>
+    <string name="weight_update_weight">Actualitza el pes</string>
+    <string name="weight_request_data">Sol·licita dades</string>
+    <string name="weight_current_cylinder">Bombona actual</string>
+    <string name="weight_cylinder_name">Nom: %s</string>
+    <string name="weight_cylinder_capacity">Capacitat: %.1f kg</string>
+    <string name="weight_cylinder_tare">Pes en buit: %.1f kg</string>
+    <string name="weight_no_cylinder_configured">No hi ha cap bombona configurada</string>
+    <string name="weight_waiting_sensor_data">Esperant dades del sensor…</string>
+    <string name="weight_ensure_sensor_connected">Assegura\'t que el sensor estigui connectat</string>
+    <string name="weight_connect_sensor_first">Connecta el sensor primer</string>
+
+    <!-- Caravan Config Screen -->
+    <string name="caravan_config_title">Configuració del vehicle</string>
+    <string name="caravan_config_vehicle_type">Tipus de vehicle</string>
+    <string name="caravan_config_dimensions">Dimensions (cm)</string>
+    <string name="caravan_config_distance_between_rear_wheels">Distància entre rodes del darrere</string>
+    <string name="caravan_config_distance_to_front_support">Distància al suport davanter</string>
+    <string name="caravan_config_distance_between_front_wheels">Distància entre eixos davanter i del darrere</string>
+    <string name="caravan_config_cancel">Cancel·la</string>
+    <string name="caravan_config_save">Desa</string>
+
+    <!-- Add Gas Cylinder Dialog -->
+    <string name="add_cylinder_title">Afegeix una bombona nova</string>
+    <string name="add_cylinder_name_label">Nom de la bombona</string>
+    <string name="add_cylinder_name_placeholder">P. ex.: Bombona principal</string>
+    <string name="add_cylinder_name_error">El nom és obligatori</string>
+    <string name="add_cylinder_tare_label">Pes de la bombona buida (kg)</string>
+    <string name="add_cylinder_tare_placeholder">P. ex.: 15.5</string>
+    <string name="add_cylinder_tare_error">Introdueix un pes vàlid</string>
+    <string name="add_cylinder_capacity_label">Capacitat de gas (kg)</string>
+    <string name="add_cylinder_capacity_placeholder">P. ex.: 13.0</string>
+    <string name="add_cylinder_capacity_error">Introdueix una capacitat vàlida</string>
+    <string name="add_cylinder_set_active">Defineix com a bombona activa</string>
+    <string name="add_cylinder_add_button">Afegeix</string>
+    <string name="add_cylinder_cancel_button">Cancel·la</string>
+
+    <!-- Widget Configuration -->
+    <string name="widget_config_title">Configuració del widget</string>
+    <string name="widget_config_ready_message">El teu widget de CamperGas està a punt per utilitzar-se.</string>
+    <string name="widget_config_usage_info">• Toca el widget per obrir l\'aplicació\n• Toca el botó d\'actualitzar per sol·licitar dades noves\n• El widget s\'actualitza automàticament quan hi ha canvis</string>
+
+    <!-- Bluetooth Permission Error Messages -->
+    <string name="error_bluetooth_not_enabled">Bluetooth no activat</string>
+    <string name="error_location_not_enabled">Ubicació no activada</string>
+    <string name="error_bluetooth_not_supported">El dispositiu no admet Bluetooth</string>
+
+    <!-- Vehicle Types -->
+    <string name="vehicle_type_caravan">Caravana</string>
+    <string name="vehicle_type_motorhome">Autocaravana</string>
+
+    <!-- Caravan Config Labels -->
+    <string name="caravan_config_distance_between_rear_wheels_label">Distància entre rodes del darrere</string>
+    <string name="caravan_config_distance_to_front_support_label">Distància al suport davanter</string>
+    <string name="caravan_config_distance_between_front_wheels_label">Distància entre eixos davanter i del darrere</string>
+
+    <!-- Connection Status -->
+    <string name="connection_status_connected">✅ Connectat</string>
+    <string name="connection_status_disconnected">❌ Desconnectat</string>
+
+    <!-- Navigation -->
+    <string name="nav_back">Torna</string>
+
+    <!-- Units -->
+    <string name="unit_minutes">min</string>
+    <string name="unit_seconds">s</string>
+
+    <!-- Home Screen Cards -->
+    <string name="home_weight_monitoring_title">Monitoratge de pes</string>
+    <string name="home_weight_monitoring_description">Toca per accedir a la vista de pes actual</string>
+    <string name="home_consumption_history_title">Historial de consum</string>
+    <string name="home_consumption_history_description">Toca per accedir a la vista de consum de gas històric</string>
+    <string name="home_inclination_title">Inclinació</string>
+    <string name="home_inclination_description">Toca per accedir a la vista de nivellació del vehicle</string>
+    <string name="home_add_cylinder">Afegeix bombona</string>
+    <string name="home_connect_ble_title">Connecta BLE</string>
+    <string name="home_configuration_title">Configuració</string>
+    <string name="home_vehicle_settings_title">Ajustos del vehicle</string>
+
+    <!-- Content Descriptions -->
+    <string name="clear_filters_description">Neteja filtres</string>
+    <string name="start_date_label">Data d\'inici</string>
+
+    <!-- Settings Screen - Additional -->
+    <string name="settings_apply_weight_interval">Aplica l\'interval de pes</string>
+    <string name="settings_apply_inclination_interval">Aplica l\'interval d\'inclinació</string>
+    <string name="settings_weight_interval_label">Interval (minuts)</string>
+    <string name="settings_inclination_interval_label">Interval (segons)</string>
+    <string name="settings_percent_suffix">%</string>
+
+    <!-- Consumption Screen - Additional -->
+    <string name="consumption_summary_icon_title">Resum de consum</string>
+    <string name="consumption_kg_label">kg consumits</string>
+    <string name="consumption_period_last_24h">Últimes 24h</string>
+    <string name="consumption_period_last_week">Última setmana</string>
+    <string name="consumption_period_last_month">Últim mes</string>
+    <string name="consumption_period_selected">Període seleccionat</string>
+    <string name="consumption_chart_icon_title">Gràfic de consum diari</string>
+
+    <!-- Inclination Screen - Additional -->
+    <string name="inclination_waiting_data">Esperant dades del sensor…</string>
+    <string name="inclination_requesting_button">Sol·licitant…</string>
+    <string name="inclination_request_button">Sol·licita dades</string>
+    <string name="inclination_vehicle_leveled_status">VEHICLE NIVELLAT</string>
+    <string name="inclination_vehicle_unleveled_status">VEHICLE NO NIVELLAT</string>
+    <string name="inclination_visualization_icon_title">Visualització del nivellat</string>
+    <string name="inclination_vehicle_type_caravan">Caravana</string>
+    <string name="inclination_vehicle_type_motorhome">Autocaravana</string>
+    <string name="inclination_config_icon_title">Configuració necessària</string>
+    <string name="inclination_config_description">Per mostrar les estimacions d\'elevació de rodes, configura les dimensions del vehicle a la secció de configuració.</string>
+    <string name="inclination_sensor_info_title">Informació del sensor</string>
+    <string name="inclination_last_update_format">Última actualització: %s</string>
+    <string name="inclination_pitch_leveled_emoji">Nivellat</string>
+    <string name="inclination_pitch_unleveled_emoji">No nivellat</string>
+    <string name="inclination_pitch_status_format">Estat Pitch: %s</string>
+    <string name="inclination_roll_status_format">Estat Roll: %s</string>
+    <string name="inclination_sensor_not_connected_emoji">Sensor no connectat</string>
+    <string name="inclination_info_icon_title">Informació</string>
+    <string name="inclination_info_details">• Tolerància de nivellació: ±2°\n• Pitch: Inclinació frontal/posterior (capcineig)\n• Roll: Inclinació lateral (balanceig)\n• Pitch + = front cap amunt\n• Roll + = dreta cap amunt</string>
+
+    <!-- Weight Screen - Additional -->
+    <string name="weight_percentage_format">%d%%</string>
+    <string name="weight_back_description">Torna</string>
+    <string name="weight_measured_weight_format">Pes mesurat: %s</string>
+    <string name="weight_last_measurement_format">Última mesura: %s</string>
+    <string name="weight_sensor_not_connected_emoji">Sensor no connectat</string>
+    <string name="weight_current_cylinder_title">Bombona actual</string>
+    <string name="weight_cylinder_name_format">Nom: %s</string>
+    <string name="weight_cylinder_capacity_format">Capacitat: %.1f kg</string>
+    <string name="weight_cylinder_tare_format">Pes en buit: %.1f kg</string>
+    <string name="weight_no_cylinder_configured_emoji">No hi ha bombona configurada</string>
+    <string name="weight_make_sure_connected">Assegura\'t que el sensor estigui connectat</string>
+
+    <!-- BLE Connect Screen - Additional -->
+    <string name="ble_signal_strength_format">Senyal: %s</string>
+    <string name="ble_rssi_display_format">RSSI: %d dBm</string>
+    <string name="ble_services_format">Serveis: %d disponibles</string>
+    <string name="ble_not_compatible_text">No compatible amb CamperGas</string>
+    <string name="ble_disconnect_text">Desconnecta</string>
+
+    <!-- Add Gas Cylinder Dialog - Additional -->
+    <string name="add_cylinder_name_label_mixed">Nom de la bombona</string>
+    <string name="add_cylinder_name_placeholder_mixed">P. ex.: Bombona principal</string>
+    <string name="add_cylinder_name_error_mixed">El nom és obligatori</string>
+    <string name="add_cylinder_tare_label_mixed">Pes de la bombona buida (kg)</string>
+    <string name="add_cylinder_tare_placeholder_mixed">P. ex.: 15.5</string>
+    <string name="add_cylinder_tare_error_mixed">Introdueix un pes vàlid</string>
+    <string name="add_cylinder_capacity_label_mixed">Capacitat de gas (kg)</string>
+    <string name="add_cylinder_capacity_placeholder_mixed">P. ex.: 13.0</string>
+    <string name="add_cylinder_capacity_error_mixed">Introdueix una capacitat vàlida</string>
+    <string name="add_cylinder_set_active_mixed">Defineix com a bombona activa</string>
+    <string name="add_cylinder_add_button_mixed">Afegeix</string>
+    <string name="add_cylinder_cancel_button_mixed">Cancel·la</string>
+
+    <!-- GasCylinderViewModel Messages -->
+    <string name="cylinder_no_active_warning">No hi ha bombona activa — Les mesures no es desaran</string>
+    <string name="cylinder_added_success">Bombona afegida correctament</string>
+    <string name="cylinder_error_format">Error: %s</string>
+    <string name="cylinder_error_adding">Error en afegir la bombona</string>
+
+    <!-- WheelElevationsDisplay -->
+    <string name="wheel_elevation_icon_title">Elevació de rodes</string>
+    <string name="wheel_elevation_hint">Valors positius = pujar, negatius = baixar</string>
+    <string name="wheel_front_wheels">Rodes davanteres</string>
+    <string name="wheel_rear_wheels">Rodes posteriors</string>
+    <string name="wheel_elevation_format">%.1f cm</string>
+
+    <!-- VehicleInclinationView -->
+    <string name="vehicle_inclination_side_view">Vista lateral — Nivell vertical (Pitch)</string>
+    <string name="vehicle_inclination_compact">Inclinació</string>
+    <string name="vehicle_inclination_rear_view">Vista posterior — Nivell horitzontal (Roll)</string>
+    <string name="vehicle_inclination_angle_format">%.1f°</string>
+
+    <!-- Home Screen - Additional -->
+    <string name="home_connect_icon">BLE</string>
+
+    <!-- Test Data Management -->
+    <string name="settings_test_data">Dades de Prova</string>
+    <string name="settings_test_data_description">Generar o eliminar dades de prova per a visualització</string>
+    <string name="settings_generate_test_data">Generar Dades de Prova</string>
+    <string name="settings_generate_test_data_description">Crea una bombona de prova 🧪 amb mesuraments dels últims 30 dies (no afecta la bombona activa)</string>
+    <string name="settings_delete_non_active_data">Eliminar Dades de Prova</string>
+    <string name="settings_delete_non_active_data_description">Elimina les bombones de prova 🧪 i els seus mesuraments associats</string>
+
+    <!-- BLE Foreground Service Notifications -->
+    <string name="ble_service_channel_name">Servei BLE de CamperGas</string>
+    <string name="ble_service_channel_description">Canal per al servei BLE de CamperGas</string>
+    <string name="ble_service_running">CamperGas en funcionament</string>
+    <string name="gas_alert_channel_name">Alertes de Gas</string>
+    <string name="gas_alert_channel_description">Notificacions d\'alerta quan el gas està baix</string>
+    <string name="gas_alert_title">⚠️ Nivell de Gas Baix</string>
+    <string name="gas_alert_message">El gas està al %1$d%% (per sota del %2$d%%)</string>
+</resources>

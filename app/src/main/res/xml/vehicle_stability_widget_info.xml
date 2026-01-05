@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:configure="com.example.campergas.widget.WidgetConfigActivity"
+    android:description="@string/vehicle_stability_widget_description"
+    android:initialKeyguardLayout="@layout/vehicle_stability_widget"
+    android:initialLayout="@layout/vehicle_stability_widget"
+    android:minWidth="250dp"
+    android:minHeight="180dp"
+    android:previewImage="@drawable/widget_background"
+    android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="4"
+    android:targetCellHeight="3"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen" />

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Widget text colors for dark theme -->
+    <color name="widget_text_primary">#FFFFFF</color>
+    <color name="widget_text_secondary">#CCCCCC</color>
+    <color name="widget_text_accent">#5E92F3</color>
+    <color name="widget_text_warning">#FFB74D</color>
+</resources>

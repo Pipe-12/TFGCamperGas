@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores personalizados de la aplicación se pueden agregar aquí -->
+
+    <!-- Widget text colors for light theme -->
+    <color name="widget_text_primary">#000000</color>
+    <color name="widget_text_secondary">#666666</color>
+    <color name="widget_text_accent">#2196F3</color>
+    <color name="widget_text_warning">#FF9800</color>
+</resources>
