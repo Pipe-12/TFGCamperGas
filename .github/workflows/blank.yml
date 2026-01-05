@@ -1,0 +1,52 @@
+name: Android CI
+
+permissions:
+  contents: read
+  actions: write
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Checkout del código
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Paso 2: Configurar JDK 17 (Temurin)
+      - name: Set up JDK 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'  # Usando Temurin (anteriormente AdoptOpenJDK)
+
+      # Paso 3: Conceder permisos de ejecución a gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # Paso 4: Construcción de la aplicación en modo Debug
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      # Paso 5: Ejecutar pruebas unitarias
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest
+
+      # Paso 6: Ejecutar Lint
+      - name: Run Lint
+        run: ./gradlew lintDebug
+
+      # Paso 7: Subir informes generados (v4)
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: app/build/reports
