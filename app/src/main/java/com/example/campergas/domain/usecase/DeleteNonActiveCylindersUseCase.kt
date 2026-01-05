@@ -2,7 +2,6 @@ package com.example.campergas.domain.usecase
 
 import com.example.campergas.data.local.db.FuelMeasurementDao
 import com.example.campergas.data.local.db.GasCylinderDao
-import com.example.campergas.domain.model.GasCylinder
 import javax.inject.Inject
 
 /**

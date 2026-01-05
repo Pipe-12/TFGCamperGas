@@ -15,15 +15,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.campergas.R
 import com.example.campergas.domain.model.VehicleType
 import com.example.campergas.ui.screens.inclination.WheelElevations
 import kotlin.math.abs
-import com.example.campergas.R
+
 /**
  * Displays calculated wheel elevation adjustments for vehicle leveling.
  *
