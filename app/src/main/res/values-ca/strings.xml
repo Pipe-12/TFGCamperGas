@@ -14,7 +14,7 @@
     <string name="settings_notifications">Notificacions</string>
     <string name="settings_enable_notifications">Activa les notificacions</string>
     <string name="settings_gas_threshold">Llindar d\'alerta de gas</string>
-    <string name="settings_gas_threshold_description">S\'enviarà una notificació quan el gas baixi del %d%%</string>
+    <string name="settings_gas_threshold_description">S\'enviarà una notificació quan el gas baixi de %s kg</string>
     <string name="settings_weight_reading">Lectura de pes</string>
     <string name="settings_weight_interval_description">Interval entre lectures de pes del sensor</string>
     <string name="settings_weight_range">Interval vàlid: 1–60 minuts</string>
@@ -48,7 +48,7 @@
     <!-- Common -->
     <string name="save">Desa</string>
     <string name="save_threshold">Desa el llindar</string>
-    <string name="percentage_minimum_gas">Percentatge mínim de gas</string>
+    <string name="kilograms_minimum_gas">Quilos de gas mínim</string>
     <string name="configuration">Configuració</string>
 
     <!-- Home Screen -->
@@ -334,5 +334,6 @@
     <string name="gas_alert_channel_name">Alertes de Gas</string>
     <string name="gas_alert_channel_description">Notificacions d\'alerta quan el gas està baix</string>
     <string name="gas_alert_title">⚠️ Nivell de Gas Baix</string>
-    <string name="gas_alert_message">El gas està al %1$d%% (per sota del %2$d%%)</string>
+    <string name="gas_alert_message">El gas està a %1$s kg (per sota de %2$s kg)</string>
+    <string name="settings_kg_suffix">kg</string>
 </resources>

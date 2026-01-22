@@ -76,11 +76,11 @@ class PreferencesDataStore @Inject constructor(
     /**
      * Flow of the gas level threshold for low fuel warnings.
      *
-     * @return Flow emitting threshold percentage, defaults to 15.0%
+     * @return Flow emitting threshold in kilograms, defaults to 2.0 kg
      */
     val gasLevelThreshold: Flow<Float> = context.dataStore.data
         .map { preferences ->
-            preferences[gasLevelThresholdKey] ?: 15.0f // 15% por defecto
+            preferences[gasLevelThresholdKey] ?: 2.0f // 2kg por defecto
         }
 
     /**
@@ -151,7 +151,7 @@ class PreferencesDataStore @Inject constructor(
     /**
      * Sets the gas level threshold for low fuel warnings.
      *
-     * @param threshold Threshold percentage (0-100)
+     * @param threshold Threshold in kilograms
      */
     suspend fun setGasLevelThreshold(threshold: Float) {
         context.dataStore.edit { preferences ->

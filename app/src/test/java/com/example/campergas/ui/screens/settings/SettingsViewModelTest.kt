@@ -52,7 +52,7 @@ class SettingsViewModelTest {
     // Flows to simulate preferences
     private val themeModeFlow = MutableStateFlow(ThemeMode.DARK)
     private val notificationsEnabledFlow = MutableStateFlow(true)
-    private val gasLevelThresholdFlow = MutableStateFlow(15.0f)
+    private val gasLevelThresholdFlow = MutableStateFlow(2.0f)
     private val appLanguageFlow = MutableStateFlow(AppLanguage.SYSTEM)
     private val weightIntervalFlow = MutableStateFlow(60) // 60 seconds = 1 minute
     private val inclinationIntervalFlow = MutableStateFlow(15) // 15 seconds
@@ -113,7 +113,7 @@ class SettingsViewModelTest {
         val state = viewModel.uiState.value
         assertEquals(ThemeMode.DARK, state.themeMode) // The mock returns DARK
         assertTrue(state.notificationsEnabled)
-        assertEquals(15.0f, state.gasLevelThreshold, 0.01f)
+        assertEquals(2.0f, state.gasLevelThreshold, 0.01f)
         assertFalse(state.isLoading)
         assertNull(state.error)
 
@@ -182,13 +182,13 @@ class SettingsViewModelTest {
     @Test
     fun `setGasLevelThreshold updates preferences`() = runTest {
         // Act
-        viewModel.setGasLevelThreshold(20.0f)
+        viewModel.setGasLevelThreshold(3.5f)
         advanceUntilIdle()
 
         // Assert
-        coVerify { preferencesDataStore.setGasLevelThreshold(20.0f) }
-        assertEquals(20.0f, gasLevelThresholdFlow.value, 0.01f)
-        assertEquals(20.0f, viewModel.uiState.value.gasLevelThreshold, 0.01f)
+        coVerify { preferencesDataStore.setGasLevelThreshold(3.5f) }
+        assertEquals(3.5f, gasLevelThresholdFlow.value, 0.01f)
+        assertEquals(3.5f, viewModel.uiState.value.gasLevelThreshold, 0.01f)
     }
 
     @Test

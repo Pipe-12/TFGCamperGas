@@ -14,7 +14,7 @@
     <string name="settings_notifications">Notifications</string>
     <string name="settings_enable_notifications">Enable notifications</string>
     <string name="settings_gas_threshold">Gas alert threshold</string>
-    <string name="settings_gas_threshold_description">A notification will be sent when gas drops below %d%%</string>
+    <string name="settings_gas_threshold_description">A notification will be sent when gas drops below %s kg</string>
     <string name="settings_weight_reading">Weight reading</string>
     <string name="settings_weight_interval_description">Interval between sensor weight readings</string>
     <string name="settings_weight_range">Valid range: 1–60 minutes</string>
@@ -48,7 +48,7 @@
     <!-- Common -->
     <string name="save">Save</string>
     <string name="save_threshold">Save threshold</string>
-    <string name="percentage_minimum_gas">Minimum gas percentage</string>
+    <string name="kilograms_minimum_gas">Minimum gas kilograms</string>
     <string name="configuration">Settings</string>
 
     <!-- Home Screen -->
@@ -334,5 +334,6 @@
     <string name="gas_alert_channel_name">Gas Alerts</string>
     <string name="gas_alert_channel_description">Alert notifications when gas is low</string>
     <string name="gas_alert_title">⚠️ Low Gas Level</string>
-    <string name="gas_alert_message">Gas is at %1$d%% (below %2$d%%)</string>
+    <string name="gas_alert_message">Gas is at %1$s kg (below %2$s kg)</string>
+    <string name="settings_kg_suffix">kg</string>
 </resources>

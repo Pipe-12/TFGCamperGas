@@ -14,7 +14,7 @@
     <string name="settings_notifications">Notificaciones</string>
     <string name="settings_enable_notifications">Activar notificaciones</string>
     <string name="settings_gas_threshold">Umbral de alerta de gas</string>
-    <string name="settings_gas_threshold_description">Se enviará una notificación cuando el gas baje del %d%%</string>
+    <string name="settings_gas_threshold_description">Se enviará una notificación cuando el gas baje de %s kg</string>
     <string name="settings_weight_reading">Lectura de Peso</string>
     <string name="settings_weight_interval_description">Intervalo entre lecturas de peso del sensor</string>
     <string name="settings_weight_range">Rango válido: 1–60 minutos</string>
@@ -48,7 +48,7 @@
     <!-- Common -->
     <string name="save">Guardar</string>
     <string name="save_threshold">Guardar umbral</string>
-    <string name="percentage_minimum_gas">Porcentaje de gas mínimo</string>
+    <string name="kilograms_minimum_gas">Kilos de gas mínimo</string>
     <string name="configuration">Configuración</string>
 
     <!-- Home Screen -->
@@ -334,5 +334,6 @@
     <string name="gas_alert_channel_name">Alertas de Gas</string>
     <string name="gas_alert_channel_description">Notificaciones de alerta cuando el gas está bajo</string>
     <string name="gas_alert_title">⚠️ Nivel de Gas Bajo</string>
-    <string name="gas_alert_message">El gas está al %1$d%% (por debajo del %2$d%%)</string>
+    <string name="gas_alert_message">El gas está a %1$s kg (por debajo de %2$s kg)</string>
+    <string name="settings_kg_suffix">kg</string>
 </resources>

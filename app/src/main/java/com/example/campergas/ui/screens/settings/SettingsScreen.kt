@@ -201,8 +201,8 @@ fun SettingsScreen(
                         onValueChange = { newValue ->
                             gasThresholdText = newValue
                         },
-                        label = { Text(stringResource(R.string.percentage_minimum_gas)) },
-                        suffix = { Text(stringResource(R.string.settings_percent_suffix)) },
+                        label = { Text(stringResource(R.string.kilograms_minimum_gas)) },
+                        suffix = { Text(stringResource(R.string.settings_kg_suffix)) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
@@ -213,7 +213,7 @@ fun SettingsScreen(
                     Button(
                         onClick = {
                             val threshold = gasThresholdText.toFloatOrNull()
-                            if (threshold != null && threshold in 1.0f..50.0f) {
+                            if (threshold != null && threshold in 0.5f..15.0f) {
                                 viewModel.setGasLevelThreshold(threshold)
                             }
                         },
@@ -225,7 +225,7 @@ fun SettingsScreen(
                     Text(
                         text = stringResource(
                             R.string.settings_gas_threshold_description,
-                            uiState.gasLevelThreshold.toInt()
+                            "%.2f".format(uiState.gasLevelThreshold)
                         ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

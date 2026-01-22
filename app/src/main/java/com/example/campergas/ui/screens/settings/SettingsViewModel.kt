@@ -51,7 +51,7 @@ class SettingsViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
-                initialValue = 1 // 1 minuto por defecto
+                initialValue = 10 // 10 minuto por defecto
             )
 
     /** Flow of inclination sensor reading interval in seconds */
@@ -126,7 +126,7 @@ class SettingsViewModel @Inject constructor(
     /**
      * Sets the gas level threshold for low fuel warnings.
      *
-     * @param threshold Threshold percentage (0-100)
+     * @param threshold Threshold in kilograms
      */
     fun setGasLevelThreshold(threshold: Float) {
         viewModelScope.launch {
@@ -277,14 +277,14 @@ class SettingsViewModel @Inject constructor(
  *
  * @param themeMode Current theme mode (LIGHT, DARK, or SYSTEM)
  * @param notificationsEnabled Indicates if notifications are enabled
- * @param gasLevelThreshold Gas level threshold for warnings (percentage)
+ * @param gasLevelThreshold Gas level threshold for warnings (in kilograms)
  * @param isLoading Indicates if an operation is in progress
  * @param error Error message if any
  */
 data class SettingsUiState(
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val notificationsEnabled: Boolean = true,
-    val gasLevelThreshold: Float = 15.0f,
+    val gasLevelThreshold: Float = 2.0f,
     val language: AppLanguage = AppLanguage.SYSTEM,
     val isLoading: Boolean = false,
     val error: String? = null

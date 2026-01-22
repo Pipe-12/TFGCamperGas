@@ -149,7 +149,7 @@ class BleForegroundService : Service() {
                     bleRepository.fuelMeasurementData.collect { fuelMeasurement ->
                         if (fuelMeasurement != null) {
                             // Check gas level threshold for alerts
-                            checkGasLevelThreshold(fuelMeasurement.fuelPercentage)
+                            checkGasLevelThreshold(fuelMeasurement.fuelKilograms)
 
                             // Update gas cylinder widget
                             GasCylinderWidgetProvider.updateAllWidgets(this@BleForegroundService)
@@ -376,7 +376,7 @@ class BleForegroundService : Service() {
         notificationManager.notify(notificationId, notification)
     }
 
-    private fun checkGasLevelThreshold(currentPercentage: Float) {
+    private fun checkGasLevelThreshold(currentKilograms: Float) {
         serviceScope.launch {
             try {
                 val notificationsEnabled = preferencesDataStore.areNotificationsEnabled.first()
@@ -385,10 +385,10 @@ class BleForegroundService : Service() {
                 val threshold = preferencesDataStore.gasLevelThreshold.first()
 
                 // Only send alert if gas is below threshold
-                if (currentPercentage <= threshold) {
+                if (currentKilograms <= threshold) {
                     // Avoid spam: only send if not sent for this threshold or if threshold changed
                     if (!hasAlertBeenSent || lastAlertThreshold != threshold) {
-                        sendGasAlert(currentPercentage, threshold)
+                        sendGasAlert(currentKilograms, threshold)
                         hasAlertBeenSent = true
                         lastAlertThreshold = threshold
                     }
@@ -404,12 +404,12 @@ class BleForegroundService : Service() {
         }
     }
 
-    private fun sendGasAlert(currentPercentage: Float, threshold: Float) {
+    private fun sendGasAlert(currentKilograms: Float, threshold: Float) {
         val title = getString(R.string.gas_alert_title)
         val message = getString(
             R.string.gas_alert_message,
-            currentPercentage.toInt(),
-            threshold.toInt()
+            "%.2f".format(currentKilograms),
+            "%.2f".format(threshold)
         )
 
         val alertNotification = NotificationCompat.Builder(this, alertChannelId)
