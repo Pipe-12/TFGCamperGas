@@ -347,12 +347,35 @@ class BleForegroundService : Service() {
         notificationManager.createNotificationChannel(channel)
     }
 
+    /**
+     * Creates notification channel for gas level alerts.
+     *
+     * Configures a high-priority notification channel with sound, vibration,
+     * and LED lights to ensure critical alerts are visible to users.
+     * Required for Android 8.0 (API 26) and above.
+     */
     private fun createAlertNotificationChannel() {
         val name = getString(R.string.gas_alert_channel_name)
         val descriptionText = getString(R.string.gas_alert_channel_description)
         val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(alertChannelId, name, importance).apply {
             description = descriptionText
+            // Enable sound for alert notifications
+            setSound(
+                android.provider.Settings.System.DEFAULT_NOTIFICATION_URI,
+                android.media.AudioAttributes.Builder()
+                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
+                    .build()
+            )
+            // Enable vibration
+            enableVibration(true)
+            vibrationPattern = longArrayOf(0, 500, 250, 500)
+            // Enable LED lights if available
+            enableLights(true)
+            lightColor = android.graphics.Color.RED
+            // Show on lock screen
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
         }
 
         val notificationManager =
@@ -404,25 +427,62 @@ class BleForegroundService : Service() {
         }
     }
 
+    /**
+     * Sends a critical gas level alert notification to the user.
+     *
+     * Creates and displays a high-priority notification when gas level falls
+     * below the configured threshold. Includes vibration, sound, and LED indicators
+     * for maximum visibility. Checks for POST_NOTIFICATIONS permission on Android 13+.
+     *
+     * @param currentKilograms Current gas level in kilograms
+     * @param threshold Configured threshold level in kilograms
+     */
     private fun sendGasAlert(currentKilograms: Float, threshold: Float) {
-        val title = getString(R.string.gas_alert_title)
-        val message = getString(
-            R.string.gas_alert_message,
-            "%.2f".format(currentKilograms),
-            "%.2f".format(threshold)
-        )
+        try {
+            // Check POST_NOTIFICATIONS permission for Android 13+ (API 33+)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+                    != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                    Log.w(TAG, "Cannot send notification: POST_NOTIFICATIONS permission not granted")
+                    return
+                }
+            }
 
-        val alertNotification = NotificationCompat.Builder(this, alertChannelId)
-            .setContentTitle(title)
-            .setContentText(message)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
-            .build()
+            val title = getString(R.string.gas_alert_title)
+            val message = getString(
+                R.string.gas_alert_message,
+                "%.2f".format(currentKilograms),
+                "%.2f".format(threshold)
+            )
 
-        val notificationManager =
-            getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(alertNotificationId, alertNotification)
+            val alertNotification = NotificationCompat.Builder(this, alertChannelId)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                // Category for system to prioritize appropriately
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                // Auto-dismiss when user taps notification
+                .setAutoCancel(true)
+                // Enable vibration pattern
+                .setVibrate(longArrayOf(0, 500, 250, 500))
+                // Use default notification sound
+                .setDefaults(NotificationCompat.DEFAULT_SOUND)
+                // Show on lock screen
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                // Make notification stand out
+                .setColorized(true)
+                .setColor(android.graphics.Color.RED)
+                .build()
+
+            val notificationManager =
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(alertNotificationId, alertNotification)
+
+            Log.d(TAG, "Gas alert notification sent: $currentKilograms kg (threshold: $threshold kg)")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error sending gas alert notification", e)
+        }
     }
 
     override fun onDestroy() {

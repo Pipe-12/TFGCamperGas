@@ -41,6 +41,10 @@
         android:name="android.permission.POST_NOTIFICATIONS"
         android:minSdkVersion="33" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Permiso para vibración en notificaciones de alerta -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <!-- Permisos de foreground service para Android 14+ -->
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE"

@@ -222,6 +222,12 @@ class BluetoothPermissionManager(
             permissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
         }
 
+        // Notification permission for Android 13+ (API 33+)
+        // Required to post notifications, including gas level alerts
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
         return permissions
     }
 
