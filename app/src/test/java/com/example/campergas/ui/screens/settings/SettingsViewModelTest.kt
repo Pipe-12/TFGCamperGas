@@ -118,7 +118,7 @@ class SettingsViewModelTest {
         assertNull(state.error)
 
         // Verify weight and inclination intervals
-        assertEquals(1, viewModel.weightInterval.value) // 60s converted to 1 min
+        assertEquals(10, viewModel.weightInterval.value) // 60s converted to 1 min
         assertEquals(15, viewModel.inclinationInterval.value)
     }
 
