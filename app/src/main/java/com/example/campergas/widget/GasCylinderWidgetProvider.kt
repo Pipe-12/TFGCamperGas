@@ -140,9 +140,9 @@ class GasCylinderWidgetProvider : AppWidgetProvider() {
                         createCylinderBitmap(currentFuelMeasurement.fuelPercentage / 100f)
                     views.setImageViewBitmap(R.id.widget_cylinder_image, cylinderBitmap)
                 } else {
-                    views.setTextViewText(R.id.widget_cylinder_name, "Sin cylinder activa")
-                    views.setTextViewText(R.id.widget_fuel_percentage, "--")
-                    views.setTextViewText(R.id.widget_fuel_kg, "--")
+                    views.setTextViewText(R.id.widget_cylinder_name, context.getString(R.string.widget_no_active_cylinder))
+                    views.setTextViewText(R.id.widget_fuel_percentage, context.getString(R.string.widget_no_data))
+                    views.setTextViewText(R.id.widget_fuel_kg, context.getString(R.string.widget_no_data))
 
                     // Empty cylinder image
                     val cylinderBitmap = createCylinderBitmap(0f)
@@ -150,7 +150,7 @@ class GasCylinderWidgetProvider : AppWidgetProvider() {
                 }
 
                 // Configure connection state
-                val connectionText = if (isConnected) "🟢 Conectado" else "🔴 Desconectado"
+                val connectionText = if (isConnected) context.getString(R.string.widget_connected) else context.getString(R.string.widget_disconnected)
                 views.setTextViewText(R.id.widget_connection_status, connectionText)
 
                 // Configurar intents
@@ -163,10 +163,10 @@ class GasCylinderWidgetProvider : AppWidgetProvider() {
                 Log.e("GasCylinderWidget", "Error updating widget", e)
                 // Configurar vista de error
                 val views = RemoteViews(context.packageName, R.layout.gas_cylinder_widget)
-                views.setTextViewText(R.id.widget_cylinder_name, "Error")
-                views.setTextViewText(R.id.widget_fuel_percentage, "--")
-                views.setTextViewText(R.id.widget_fuel_kg, "--")
-                views.setTextViewText(R.id.widget_connection_status, "🔴 Error")
+                views.setTextViewText(R.id.widget_cylinder_name, context.getString(R.string.widget_error))
+                views.setTextViewText(R.id.widget_fuel_percentage, context.getString(R.string.widget_no_data))
+                views.setTextViewText(R.id.widget_fuel_kg, context.getString(R.string.widget_no_data))
+                views.setTextViewText(R.id.widget_connection_status, context.getString(R.string.widget_error_status))
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }
         }

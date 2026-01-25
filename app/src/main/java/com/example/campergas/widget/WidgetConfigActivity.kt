@@ -142,7 +142,7 @@ fun WidgetConfigScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "• Tap the widget to open the application\n• Tap the refresh button to request new data\n• The widget updates automatically when there are changes",
+                    text = stringResource(R.string.widget_config_usage_info),
                     style = MaterialTheme.typography.bodySmall
                 )
 
@@ -155,14 +155,14 @@ fun WidgetConfigScreen(
                         onClick = onCancel,
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("Cancelar")
+                        Text(stringResource(R.string.widget_config_cancel))
                     }
 
                     Button(
                         onClick = onConfirm,
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("Confirmar")
+                        Text(stringResource(R.string.widget_config_confirm))
                     }
                 }
             }

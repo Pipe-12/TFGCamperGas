@@ -123,34 +123,34 @@ class VehicleStabilityWidgetProvider : AppWidgetProvider() {
                 if (inclinationData != null) {
                     views.setTextViewText(
                         R.id.widget_pitch_value,
-                        "P: %.1f°".format(inclinationData.pitch)
+                        context.getString(R.string.widget_pitch_format).format(inclinationData.pitch)
                     )
                     views.setTextViewText(
                         R.id.widget_roll_value,
-                        "R: %.1f°".format(inclinationData.roll)
+                        context.getString(R.string.widget_roll_format).format(inclinationData.roll)
                     )
 
                     // Leveling state with simple indicator
-                    val stabilityText = if (inclinationData.isLevel) "✅ ESTABLE" else "⚠️ INCLINADO"
-                    val stabilityIndicator = if (inclinationData.isLevel) "✓" else "✗"
+                    val stabilityText = if (inclinationData.isLevel) context.getString(R.string.widget_stable) else context.getString(R.string.widget_inclined)
+                    val stabilityIndicator = if (inclinationData.isLevel) context.getString(R.string.widget_stable_indicator) else context.getString(R.string.widget_unstable_indicator)
                     views.setTextViewText(R.id.widget_stability_status, stabilityText)
                     views.setTextViewText(R.id.widget_stability_indicator, stabilityIndicator)
 
                     // Timestamp
                     views.setTextViewText(
                         R.id.widget_last_update,
-                        "Updated: ${inclinationData.getFormattedTimestamp()}"
+                        context.getString(R.string.widget_updated_format).format(inclinationData.getFormattedTimestamp())
                     )
                 } else {
-                    views.setTextViewText(R.id.widget_pitch_value, "P: --°")
-                    views.setTextViewText(R.id.widget_roll_value, "R: --°")
-                    views.setTextViewText(R.id.widget_stability_status, "⚠️ SIN DATOS")
-                    views.setTextViewText(R.id.widget_stability_indicator, "❓")
-                    views.setTextViewText(R.id.widget_last_update, "Sin data disponibles")
+                    views.setTextViewText(R.id.widget_pitch_value, context.getString(R.string.widget_pitch_no_data))
+                    views.setTextViewText(R.id.widget_roll_value, context.getString(R.string.widget_roll_no_data))
+                    views.setTextViewText(R.id.widget_stability_status, context.getString(R.string.widget_no_data_status))
+                    views.setTextViewText(R.id.widget_stability_indicator, context.getString(R.string.widget_unknown_indicator))
+                    views.setTextViewText(R.id.widget_last_update, context.getString(R.string.widget_no_data_available))
                 }
 
                 // Configure connection state
-                val connectionText = if (isConnected) "🟢 Connected" else "🔴 Disconnected"
+                val connectionText = if (isConnected) context.getString(R.string.widget_connected) else context.getString(R.string.widget_disconnected)
                 views.setTextViewText(R.id.widget_connection_status, connectionText)
 
                 // Configurar intents
@@ -163,11 +163,11 @@ class VehicleStabilityWidgetProvider : AppWidgetProvider() {
                 Log.e("VehicleStabilityWidget", "Error updating widget", e)
                 // Configurar vista de error
                 val views = RemoteViews(context.packageName, R.layout.vehicle_stability_widget)
-                views.setTextViewText(R.id.widget_pitch_value, "P: --°")
-                views.setTextViewText(R.id.widget_roll_value, "R: --°")
-                views.setTextViewText(R.id.widget_stability_status, "❌ ERROR")
-                views.setTextViewText(R.id.widget_connection_status, "🔴 Error")
-                views.setTextViewText(R.id.widget_last_update, "Connection error")
+                views.setTextViewText(R.id.widget_pitch_value, context.getString(R.string.widget_pitch_no_data))
+                views.setTextViewText(R.id.widget_roll_value, context.getString(R.string.widget_roll_no_data))
+                views.setTextViewText(R.id.widget_stability_status, context.getString(R.string.widget_error_status_full))
+                views.setTextViewText(R.id.widget_connection_status, context.getString(R.string.widget_error_status))
+                views.setTextViewText(R.id.widget_last_update, context.getString(R.string.widget_connection_error))
                 appWidgetManager.updateAppWidget(appWidgetId, views)
             }
         }

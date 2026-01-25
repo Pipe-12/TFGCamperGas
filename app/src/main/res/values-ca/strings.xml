@@ -160,7 +160,7 @@
     <string name="caravan_config_vehicle_type">Tipus de vehicle</string>
     <string name="caravan_config_dimensions">Dimensions (cm)</string>
     <string name="caravan_config_distance_between_rear_wheels">Distància entre rodes del darrere</string>
-    <string name="caravan_config_distance_to_front_support">Distància al suport davanter</string>
+    <string name="caravan_config_distance_to_front_support">Distància al la roda jockey</string>
     <string name="caravan_config_distance_between_front_wheels">Distància entre eixos davanter i del darrere</string>
     <string name="caravan_config_cancel">Cancel·la</string>
     <string name="caravan_config_save">Desa</string>
@@ -196,7 +196,7 @@
 
     <!-- Caravan Config Labels -->
     <string name="caravan_config_distance_between_rear_wheels_label">Distància entre rodes del darrere</string>
-    <string name="caravan_config_distance_to_front_support_label">Distància al suport davanter</string>
+    <string name="caravan_config_distance_to_front_support_label">Distància al la roda jockey</string>
     <string name="caravan_config_distance_between_front_wheels_label">Distància entre eixos davanter i del darrere</string>
 
     <!-- Connection Status -->
@@ -309,6 +309,14 @@
     <string name="wheel_front_wheels">Rodes davanteres</string>
     <string name="wheel_rear_wheels">Rodes posteriors</string>
     <string name="wheel_elevation_format">%.1f cm</string>
+    <string name="wheel_front_support">🛞 Roda jockey</string>
+    <string name="wheel_front_left">🛞 Davantera esquerra</string>
+    <string name="wheel_front_right">🛞 Davantera dreta</string>
+    <string name="wheel_rear_left">🛞 Posterior esquerra</string>
+    <string name="wheel_rear_right">🛞 Posterior dreta</string>
+    <string name="wheel_status_ok">OK</string>
+    <string name="wheel_status_raise">Pujar</string>
+    <string name="wheel_status_lower">Baixar</string>
 
     <!-- VehicleInclinationView -->
     <string name="vehicle_inclination_side_view">Vista lateral — Nivell vertical (Pitch)</string>
@@ -336,4 +344,32 @@
     <string name="gas_alert_title">⚠️ Nivell de Gas Baix</string>
     <string name="gas_alert_message">El gas està a %1$s kg (per sota de %2$s kg)</string>
     <string name="settings_kg_suffix">kg</string>
+
+    <!-- Widget Config Screen -->
+    <string name="widget_config_confirm">Confirma</string>
+    <string name="widget_config_cancel">Cancel·la</string>
+
+    <!-- Gas Cylinder Widget -->
+    <string name="widget_no_active_cylinder">Sense bombona activa</string>
+    <string name="widget_no_data">--</string>
+    <string name="widget_connected">Connectat</string>
+    <string name="widget_disconnected">Desconnectat</string>
+    <string name="widget_error">Error</string>
+    <string name="widget_error_status">Error</string>
+
+    <!-- Vehicle Stability Widget -->
+    <string name="widget_pitch_format">P: %.1f°</string>
+    <string name="widget_roll_format">R: %.1f°</string>
+    <string name="widget_pitch_no_data">P: --°</string>
+    <string name="widget_roll_no_data">R: --°</string>
+    <string name="widget_stable">✅ ESTABLE</string>
+    <string name="widget_inclined">⚠️ INCLINAT</string>
+    <string name="widget_no_data_status">⚠️ SENSE DADES</string>
+    <string name="widget_no_data_available">Sense dades disponibles</string>
+    <string name="widget_updated_format">Actualitzat: %s</string>
+    <string name="widget_error_status_full">❌ ERROR</string>
+    <string name="widget_connection_error">Error de connexió</string>
+    <string name="widget_stable_indicator">✓</string>
+    <string name="widget_unstable_indicator">✗</string>
+    <string name="widget_unknown_indicator">❓</string>
 </resources>

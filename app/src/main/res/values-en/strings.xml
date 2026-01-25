@@ -160,7 +160,7 @@
     <string name="caravan_config_vehicle_type">Vehicle type</string>
     <string name="caravan_config_dimensions">Dimensions (cm)</string>
     <string name="caravan_config_distance_between_rear_wheels">Distance between rear wheels</string>
-    <string name="caravan_config_distance_to_front_support">Distance to front support</string>
+    <string name="caravan_config_distance_to_front_support">Distance to jockey wheel</string>
     <string name="caravan_config_distance_between_front_wheels">Distance between front and rear axles</string>
     <string name="caravan_config_cancel">Cancel</string>
     <string name="caravan_config_save">Save</string>
@@ -196,7 +196,7 @@
 
     <!-- Caravan Config Labels -->
     <string name="caravan_config_distance_between_rear_wheels_label">Distance between rear wheels</string>
-    <string name="caravan_config_distance_to_front_support_label">Distance to front support</string>
+    <string name="caravan_config_distance_to_front_support_label">Distance to jockey wheel</string>
     <string name="caravan_config_distance_between_front_wheels_label">Distance between front and rear axles</string>
 
     <!-- Connection Status -->
@@ -309,6 +309,14 @@
     <string name="wheel_front_wheels">Front wheels</string>
     <string name="wheel_rear_wheels">Rear wheels</string>
     <string name="wheel_elevation_format">%.1f cm</string>
+    <string name="wheel_front_support">🛞 Jockey wheel</string>
+    <string name="wheel_front_left">🛞 Front Left</string>
+    <string name="wheel_front_right">🛞 Front Right</string>
+    <string name="wheel_rear_left">🛞 Rear Left</string>
+    <string name="wheel_rear_right">🛞 Rear Right</string>
+    <string name="wheel_status_ok">OK</string>
+    <string name="wheel_status_raise">Raise</string>
+    <string name="wheel_status_lower">Lower</string>
 
     <!-- VehicleInclinationView -->
     <string name="vehicle_inclination_side_view">Side view - Vertical level (Pitch)</string>
@@ -336,4 +344,32 @@
     <string name="gas_alert_title">⚠️ Low Gas Level</string>
     <string name="gas_alert_message">Gas is at %1$s kg (below %2$s kg)</string>
     <string name="settings_kg_suffix">kg</string>
+
+    <!-- Widget Config Screen -->
+    <string name="widget_config_confirm">Confirm</string>
+    <string name="widget_config_cancel">Cancel</string>
+
+    <!-- Gas Cylinder Widget -->
+    <string name="widget_no_active_cylinder">No active cylinder</string>
+    <string name="widget_no_data">--</string>
+    <string name="widget_connected">Connected</string>
+    <string name="widget_disconnected">Disconnected</string>
+    <string name="widget_error">Error</string>
+    <string name="widget_error_status">Error</string>
+
+    <!-- Vehicle Stability Widget -->
+    <string name="widget_pitch_format">P: %.1f°</string>
+    <string name="widget_roll_format">R: %.1f°</string>
+    <string name="widget_pitch_no_data">P: --°</string>
+    <string name="widget_roll_no_data">R: --°</string>
+    <string name="widget_stable">✅ STABLE</string>
+    <string name="widget_inclined">⚠️ INCLINED</string>
+    <string name="widget_no_data_status">⚠️ NO DATA</string>
+    <string name="widget_no_data_available">No data available</string>
+    <string name="widget_updated_format">Updated: %s</string>
+    <string name="widget_error_status_full">❌ ERROR</string>
+    <string name="widget_connection_error">Connection error</string>
+    <string name="widget_stable_indicator">✓</string>
+    <string name="widget_unstable_indicator">✗</string>
+    <string name="widget_unknown_indicator">❓</string>
 </resources>

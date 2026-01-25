@@ -81,7 +81,7 @@ private fun CaravanWheelElevations(wheelElevations: WheelElevations) {
     Column {
         // Front support wheel
         WheelElevationItem(
-            wheelName = "🛞 Front Support",
+            wheelName = stringResource(R.string.wheel_front_support),
             elevation = wheelElevations.frontSupport,
             icon = "⬆️"
         )
@@ -94,14 +94,14 @@ private fun CaravanWheelElevations(wheelElevations: WheelElevations) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             WheelElevationItem(
-                wheelName = "🛞 Rear Left",
+                wheelName = stringResource(R.string.wheel_rear_left),
                 elevation = wheelElevations.rearLeft,
                 icon = "⬅️",
                 modifier = Modifier.weight(1f)
             )
 
             WheelElevationItem(
-                wheelName = "🛞 Rear Right",
+                wheelName = stringResource(R.string.wheel_rear_right),
                 elevation = wheelElevations.rearRight,
                 icon = "➡️",
                 modifier = Modifier.weight(1f)
@@ -126,14 +126,14 @@ private fun MotorHomeWheelElevations(wheelElevations: WheelElevations) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             WheelElevationItem(
-                wheelName = "🛞 Front Left",
+                wheelName = stringResource(R.string.wheel_front_left),
                 elevation = wheelElevations.frontLeft,
                 icon = "⬅️",
                 modifier = Modifier.weight(1f)
             )
 
             WheelElevationItem(
-                wheelName = "🛞 Front Right",
+                wheelName = stringResource(R.string.wheel_front_right),
                 elevation = wheelElevations.frontRight,
                 icon = "➡️",
                 modifier = Modifier.weight(1f)
@@ -155,14 +155,14 @@ private fun MotorHomeWheelElevations(wheelElevations: WheelElevations) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             WheelElevationItem(
-                wheelName = "🛞 Rear Left",
+                wheelName = stringResource(R.string.wheel_rear_left),
                 elevation = wheelElevations.rearLeft,
                 icon = "⬅️",
                 modifier = Modifier.weight(1f)
             )
 
             WheelElevationItem(
-                wheelName = "🛞 Rear Right",
+                wheelName = stringResource(R.string.wheel_rear_right),
                 elevation = wheelElevations.rearRight,
                 icon = "➡️",
                 modifier = Modifier.weight(1f)
@@ -218,9 +218,9 @@ private fun WheelElevationItem(
 
             Text(
                 text = when {
-                    abs(elevation) < 0.5f -> "OK"
-                    elevation > 0 -> "Raise"
-                    else -> "Lower"
+                    abs(elevation) < 0.5f -> stringResource(R.string.wheel_status_ok)
+                    elevation > 0 -> stringResource(R.string.wheel_status_raise)
+                    else -> stringResource(R.string.wheel_status_lower)
                 },
                 style = MaterialTheme.typography.labelSmall,
                 color = when {
