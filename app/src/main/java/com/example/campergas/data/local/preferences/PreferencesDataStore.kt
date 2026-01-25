@@ -56,7 +56,7 @@ class PreferencesDataStore @Inject constructor(
             val themeModeString = preferences[themeModeKey] ?: ThemeMode.SYSTEM.name
             try {
                 ThemeMode.valueOf(themeModeString)
-            } catch (e: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 ThemeMode.SYSTEM
             }
         }
@@ -96,21 +96,21 @@ class PreferencesDataStore @Inject constructor(
     /**
      * Flow of the weight sensor read interval in milliseconds.
      *
-     * @return Flow emitting interval in ms, defaults to 5000ms (5 seconds)
+     * @return Flow emitting interval in ms, defaults to 300000ms  (5 minutes)
      */
     val weightReadInterval: Flow<Long> = context.dataStore.data
         .map { preferences ->
-            preferences[weightReadIntervalKey] ?: 5000L // 5 segundos por defecto
+            preferences[weightReadIntervalKey] ?: 300000L
         }
 
     /**
      * Flow of the inclination sensor read interval in milliseconds.
      *
-     * @return Flow emitting interval in ms, defaults to 5000ms (5 seconds)
+     * @return Flow emitting interval in ms, defaults to 20000ms  (20 seconds)
      */
     val inclinationReadInterval: Flow<Long> = context.dataStore.data
         .map { preferences ->
-            preferences[inclinationReadIntervalKey] ?: 5000L // 5 segundos por defecto
+            preferences[inclinationReadIntervalKey] ?: 20000L
         }
 
     /**

@@ -54,8 +54,8 @@ class SettingsViewModelTest {
     private val notificationsEnabledFlow = MutableStateFlow(true)
     private val gasLevelThresholdFlow = MutableStateFlow(2.0f)
     private val appLanguageFlow = MutableStateFlow(AppLanguage.SYSTEM)
-    private val weightIntervalFlow = MutableStateFlow(60) // 60 seconds = 1 minute
-    private val inclinationIntervalFlow = MutableStateFlow(15) // 15 seconds
+    private val weightIntervalFlow = MutableStateFlow(300)
+    private val inclinationIntervalFlow = MutableStateFlow(20)
 
     @Before
     fun setUp() {
@@ -118,8 +118,8 @@ class SettingsViewModelTest {
         assertNull(state.error)
 
         // Verify weight and inclination intervals
-        assertEquals(10, viewModel.weightInterval.value) // 60s converted to 1 min
-        assertEquals(15, viewModel.inclinationInterval.value)
+        assertEquals(5, viewModel.weightInterval.value) // 60s converted to 1 min
+        assertEquals(20, viewModel.inclinationInterval.value)
     }
 
 

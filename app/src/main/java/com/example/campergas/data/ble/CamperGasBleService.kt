@@ -273,7 +273,7 @@ class CamperGasBleService @Inject constructor(
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading configuration: ${e.message}")
                 // Use default values if it fails
-                configureReadingIntervals(5000L, 5000L)
+                configureReadingIntervals(300000L, 20000L)
                 startPeriodicDataReading()
             }
         }
@@ -285,9 +285,9 @@ class CamperGasBleService @Inject constructor(
     private var lastWeightReadTime = 0L
     private var lastInclinationReadTime = 0L
 
-    // Intervalos configurables (por defecto 5 segundos)
-    private var weightReadInterval = 5000L // 5 segundos entre readings of weight
-    private var inclinationReadInterval = 5000L // 5 segundos entre readings of inclination
+
+    private var weightReadInterval = 300000L  // 5 minutes between readings of weight
+    private var inclinationReadInterval = 20000L // 20 seconds between readings of inclination
 
     /**
      * Configures reading intervals for weight and inclination
@@ -935,8 +935,8 @@ class CamperGasBleService @Inject constructor(
      * Starts automatic offline data reading on connect
      */
     private fun startAutomaticOfflineDataReading() {
-        offlineCharacteristic?.let { characteristic ->
-            bluetoothGatt?.let { gatt ->
+        offlineCharacteristic?.let { _ ->
+            bluetoothGatt?.let { _ ->
                 // Verify permissions before requesting historical data
                 if (!bleManager.hasBluetoothConnectPermission()) {
                     Log.e(TAG, "No permissions for automatic offline data reading")

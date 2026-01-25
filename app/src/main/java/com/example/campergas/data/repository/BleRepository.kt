@@ -9,6 +9,7 @@ import com.example.campergas.data.local.preferences.PreferencesDataStore
 import com.example.campergas.domain.model.BleDevice
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -159,6 +160,23 @@ class BleRepository @Inject constructor(
      */
     suspend fun saveInclinationReadInterval(intervalMs: Long) =
         preferencesDataStore.setInclinationReadInterval(intervalMs)
+
+    /**
+     * Gets the saved inclination reading interval from preferences.
+     *
+     * @return Saved interval in milliseconds
+     */
+    suspend fun getSavedInclinationReadInterval(): Long =
+        preferencesDataStore.inclinationReadInterval.first()
+
+    /**
+     * Gets the saved weight reading interval from preferences.
+     *
+     * @return Saved interval in milliseconds
+     */
+    suspend fun getSavedWeightReadInterval(): Long =
+        preferencesDataStore.weightReadInterval.first()
+
 
     /**
      * Sets the filter to show only CamperGas-compatible devices.

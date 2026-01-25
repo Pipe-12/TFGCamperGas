@@ -98,4 +98,36 @@ class ConfigureReadingIntervalsUseCase @Inject constructor(
         return bleRepository.inclinationReadInterval.map { it.toInt() / 1000 }
     }
 
+    /**
+     * Temporarily configures the inclination reading interval without persisting to preferences.
+     *
+     * This is used when entering the inclination screen to get faster readings (1 second).
+     * The temporary interval is applied immediately but not saved to preferences.
+     * Call [restoreInclinationReadInterval] when leaving the screen to restore the saved value.
+     *
+     * @param intervalSeconds Temporary interval in seconds (e.g., 1 for 1 second)
+     */
+    fun setTemporaryInclinationReadInterval(intervalSeconds: Int) {
+        val intervalMs = intervalSeconds * 1000L
+        bleRepository.configureReadingIntervals(
+            weightIntervalMs = bleRepository.getWeightReadInterval(),
+            inclinationIntervalMs = intervalMs
+        )
+    }
+
+    /**
+     * Restores the inclination reading interval to the value saved in preferences.
+     *
+     * This should be called when leaving the inclination screen to restore
+     * the user-configured interval after using a temporary faster interval.
+     */
+    suspend fun restoreInclinationReadInterval() {
+        val savedInclinationIntervalMs = bleRepository.getSavedInclinationReadInterval()
+        val savedWeightIntervalMs = bleRepository.getSavedWeightReadInterval()
+        bleRepository.configureReadingIntervals(
+            weightIntervalMs = savedWeightIntervalMs,
+            inclinationIntervalMs = savedInclinationIntervalMs
+        )
+    }
+
 }

@@ -47,11 +47,11 @@ class SettingsViewModel @Inject constructor(
     /** Flow of weight sensor reading interval in minutes */
     val weightInterval: StateFlow<Int> =
         configureReadingIntervalsUseCase.getWeightReadIntervalSeconds()
-            .map { it / 60 } // Convertir segundos a minutos
+            .map { it / 60 }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
-                initialValue = 10 // 10 minuto por defecto
+                initialValue = 5
             )
 
     /** Flow of inclination sensor reading interval in seconds */
@@ -60,7 +60,7 @@ class SettingsViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
-                initialValue = 15  // 15 segundos por defecto
+                initialValue = 20
             )
 
     private val _operationStatus = MutableStateFlow<String?>(null)

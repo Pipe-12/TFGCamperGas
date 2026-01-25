@@ -3,11 +3,15 @@ package com.example.campergas.ui.screens.inclination
 import androidx.lifecycle.viewModelScope
 import com.example.campergas.domain.model.VehicleType
 import com.example.campergas.domain.usecase.CheckBleConnectionUseCase
+import com.example.campergas.domain.usecase.ConfigureReadingIntervalsUseCase
 import com.example.campergas.domain.usecase.GetInclinationUseCase
 import com.example.campergas.domain.usecase.GetVehicleConfigUseCase
 import com.example.campergas.domain.usecase.RequestInclinationDataUseCase
 import com.example.campergas.ui.base.BaseRequestViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,15 +25,26 @@ class InclinationViewModel @Inject constructor(
     private val getInclinationUseCase: GetInclinationUseCase,
     private val requestInclinationDataUseCase: RequestInclinationDataUseCase,
     checkBleConnectionUseCase: CheckBleConnectionUseCase,
-    private val getVehicleConfigUseCase: GetVehicleConfigUseCase
+    private val getVehicleConfigUseCase: GetVehicleConfigUseCase,
+    private val configureReadingIntervalsUseCase: ConfigureReadingIntervalsUseCase
 ) : BaseRequestViewModel(checkBleConnectionUseCase) {
 
     private val _uiState = MutableStateFlow(InclinationUiState())
     val uiState: StateFlow<InclinationUiState> = _uiState.asStateFlow()
 
+    companion object {
+        private const val FAST_INCLINATION_INTERVAL_SECONDS = 1
+    }
+
+    // Scope for cleanup operations that need to survive viewModelScope cancellation
+    private val cleanupScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     init {
         // Load vehicle configuration
         loadVehicleConfig()
+
+        // Set fast reading interval (1 second) when entering the inclination screen
+        setFastInclinationReadingInterval()
 
         // Get data of inclination en real time
         viewModelScope.launch {
@@ -52,6 +67,25 @@ class InclinationViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    /**
+     * Sets the inclination reading interval to 1 second for faster updates on this screen.
+     */
+    private fun setFastInclinationReadingInterval() {
+        configureReadingIntervalsUseCase.setTemporaryInclinationReadInterval(FAST_INCLINATION_INTERVAL_SECONDS)
+    }
+
+    /**
+     * Restores the configured inclination reading interval when leaving the screen.
+     */
+    override fun onCleared() {
+        super.onCleared()
+        // Restore the configured interval when leaving the screen
+        // Uses a separate scope since viewModelScope is cancelled at this point
+        cleanupScope.launch {
+            configureReadingIntervalsUseCase.restoreInclinationReadInterval()
         }
     }
 

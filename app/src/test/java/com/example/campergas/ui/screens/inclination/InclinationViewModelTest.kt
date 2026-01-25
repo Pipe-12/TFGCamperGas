@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.campergas.domain.model.Inclination
 import com.example.campergas.domain.usecase.CheckBleConnectionUseCase
+import com.example.campergas.domain.usecase.ConfigureReadingIntervalsUseCase
 import com.example.campergas.domain.usecase.GetInclinationUseCase
 import com.example.campergas.domain.usecase.GetVehicleConfigUseCase
 import com.example.campergas.domain.usecase.RequestInclinationDataUseCase
 import io.mockk.clearAllMocks
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
@@ -46,7 +48,7 @@ class InclinationViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
     private val inclinationFlow = MutableStateFlow<Inclination?>(null)
-
+    private val configureReadingIntervalsUseCase: ConfigureReadingIntervalsUseCase = mockk(relaxed = true)
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
@@ -60,13 +62,15 @@ class InclinationViewModelTest {
         every { requestInclinationDataUseCase() } returns Unit
         every { checkBleConnectionUseCase.isConnected() } returns true
         every { getVehicleConfigUseCase() } returns flowOf(null)
-
+        every { configureReadingIntervalsUseCase.setTemporaryInclinationReadInterval(any()) } returns Unit
+        coEvery { configureReadingIntervalsUseCase.restoreInclinationReadInterval() } returns Unit
 
         viewModel = InclinationViewModel(
             getInclinationUseCase,
             requestInclinationDataUseCase,
             checkBleConnectionUseCase,
-            getVehicleConfigUseCase
+            getVehicleConfigUseCase,
+            configureReadingIntervalsUseCase
         )
     }
 
@@ -183,5 +187,11 @@ class InclinationViewModelTest {
 
         // Note: The cooldown is based on System.currentTimeMillis() which can't be controlled
         // in tests, so we only verify the isRequestingData behavior
+    }
+
+    @Test
+    fun `sets fast inclination interval on init`() = runTest {
+        // Assert - Verify that setTemporaryInclinationReadInterval was called with 1 second
+        verify { configureReadingIntervalsUseCase.setTemporaryInclinationReadInterval(1) }
     }
 }
