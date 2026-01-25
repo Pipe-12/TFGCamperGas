@@ -370,4 +370,18 @@
     <string name="widget_stable_indicator">✓</string>
     <string name="widget_unstable_indicator">✗</string>
     <string name="widget_unknown_indicator">❓</string>
+    <!-- Sensor Calibration -->
+    <string name="settings_cal_title">Calibración del Sensor</string>
+    <string name="settings_btn_tare">Tara (Poner a cero)</string>
+    <string name="settings_tare_desc">Asegúrese de que la báscula esté vacía.</string>
+    <string name="settings_lbl_weight">Peso Conocido (kg)</string>
+    <string name="settings_btn_cal">Calibrar</string>
+    <string name="settings_cal_instr">Coloque el peso, luego calibre.</string>
+    <string name="msg_success_tare">Tara completada con éxito</string>
+    <string name="msg_success_cal">Calibración guardada</string>
+    <string name="msg_error_not_connected">Sensor no conectado</string>
+    <string name="msg_error_calibration">Error de calibración</string>
+    <string name="settings_cal_weight_placeholder">Ej: 2.50</string>
+    <string name="settings_cal_weight_error">Introduce un peso válido</string>
+
 </resources>

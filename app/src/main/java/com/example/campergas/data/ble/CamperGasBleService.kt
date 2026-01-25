@@ -206,6 +206,24 @@ class CamperGasBleService @Inject constructor(
             // Procesar el siguiente elemento en la cola
             processNextReadingInQueue()
         }
+
+        override fun onCharacteristicWrite(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            status: Int
+        ) {
+            val success = status == BluetoothGatt.GATT_SUCCESS
+            when (characteristic.uuid.toString().lowercase()) {
+                CamperGasUuids.TARE_CHARACTERISTIC_UUID.lowercase() -> {
+                    tareCallback?.invoke(success)
+                    tareCallback = null
+                }
+                CamperGasUuids.CALIBRATION_CHARACTERISTIC_UUID.lowercase() -> {
+                    calibrationCallback?.invoke(success)
+                    calibrationCallback = null
+                }
+            }
+        }
     }
 
     private fun setupCharacteristics(service: BluetoothGattService) {
@@ -251,6 +269,16 @@ class CamperGasBleService @Inject constructor(
             Log.w(TAG, "Offline characteristic not found")
         }
 
+        // Configure tare characteristic (WRITE-only)
+        tareCharacteristic = service.getCharacteristic(
+            UUID.fromString(CamperGasUuids.TARE_CHARACTERISTIC_UUID)
+        )
+
+        // Configure calibration characteristic (WRITE-only)
+        calibrationCharacteristic = service.getCharacteristic(
+            UUID.fromString(CamperGasUuids.CALIBRATION_CHARACTERISTIC_UUID)
+        )
+
         // Start periodic real-time data reading
         loadConfigurationAndStartReading()
     }
@@ -272,7 +300,7 @@ class CamperGasBleService @Inject constructor(
                 startPeriodicDataReading()
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading configuration: ${e.message}")
-                // Use default values if it fails
+                // Use default values if it fails (5 minutes for weight, 20 seconds for inclination)
                 configureReadingIntervals(300000L, 20000L)
                 startPeriodicDataReading()
             }
@@ -285,9 +313,9 @@ class CamperGasBleService @Inject constructor(
     private var lastWeightReadTime = 0L
     private var lastInclinationReadTime = 0L
 
-
-    private var weightReadInterval = 300000L  // 5 minutes between readings of weight
-    private var inclinationReadInterval = 20000L // 20 seconds between readings of inclination
+    // Intervalos configurables (por defecto: 5 minutos para peso, 20 segundos para inclinación)
+    private var weightReadInterval = 300000L // 5 minutos entre readings of weight
+    private var inclinationReadInterval = 20000L // 20 segundos entre readings of inclination
 
     /**
      * Configures reading intervals for weight and inclination
@@ -935,8 +963,8 @@ class CamperGasBleService @Inject constructor(
      * Starts automatic offline data reading on connect
      */
     private fun startAutomaticOfflineDataReading() {
-        offlineCharacteristic?.let { _ ->
-            bluetoothGatt?.let { _ ->
+        offlineCharacteristic?.let { characteristic ->
+            bluetoothGatt?.let { gatt ->
                 // Verify permissions before requesting historical data
                 if (!bleManager.hasBluetoothConnectPermission()) {
                     Log.e(TAG, "No permissions for automatic offline data reading")
@@ -1052,6 +1080,10 @@ class CamperGasBleService @Inject constructor(
         fuelMeasurementCharacteristic = null
         inclinationCharacteristic = null
         offlineCharacteristic = null
+        tareCharacteristic = null
+        calibrationCharacteristic = null
+        tareCallback = null
+        calibrationCallback = null
 
         // Limpiar estado of the cola de readings BLE
         synchronized(readingQueue) {
@@ -1078,5 +1110,90 @@ class CamperGasBleService @Inject constructor(
      */
     private fun calculateHistoricalTimestamp(millisecondsAgo: Long): Long {
         return System.currentTimeMillis() - millisecondsAgo
+    }
+
+    // Calibration characteristic references
+    private var tareCharacteristic: BluetoothGattCharacteristic? = null
+    private var calibrationCharacteristic: BluetoothGattCharacteristic? = null
+
+    // Calibration result callbacks
+    private var tareCallback: ((Boolean) -> Unit)? = null
+    private var calibrationCallback: ((Boolean) -> Unit)? = null
+
+    /**
+     * Performs tare operation on the sensor (sets current weight as zero).
+     *
+     * @param callback Callback with success/failure result
+     */
+    fun performTare(callback: (Boolean) -> Unit) {
+        if (!isConnected()) {
+            callback(false)
+            return
+        }
+
+        val characteristic = tareCharacteristic ?: run {
+            callback(false)
+            return
+        }
+        val gatt = bluetoothGatt ?: run {
+            callback(false)
+            return
+        }
+        if (!bleManager.hasBluetoothConnectPermission()) {
+            callback(false)
+            return
+        }
+
+        tareCallback = callback
+        characteristic.setValue("1")
+        characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+
+        @SuppressLint("MissingPermission")
+        val success = gatt.writeCharacteristic(characteristic)
+        if (!success) {
+            tareCallback = null
+            callback(false)
+        }
+    }
+
+    /**
+     * Performs calibration with a known weight value.
+     *
+     * @param knownWeight Weight in kilograms for calibration
+     * @param callback Callback with success/failure result
+     */
+    fun performCalibration(knownWeight: Float, callback: (Boolean) -> Unit) {
+        if (!isConnected()) {
+            callback(false)
+            return
+        }
+
+        val characteristic = calibrationCharacteristic ?: run {
+            callback(false)
+            return
+        }
+        val gatt = bluetoothGatt ?: run {
+            callback(false)
+            return
+        }
+        if (!bleManager.hasBluetoothConnectPermission()) {
+            callback(false)
+            return
+        }
+
+        calibrationCallback = callback
+        val jsonPayload = JSONObject().apply {
+            put("cal", knownWeight.toDouble())
+        }.toString()
+
+        characteristic.setValue(jsonPayload)
+        characteristic.writeType = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
+
+        @SuppressLint("MissingPermission")
+        val success = gatt.writeCharacteristic(characteristic)
+        if (!success) {
+            calibrationCallback = null
+            callback(false)
+        }
     }
 }

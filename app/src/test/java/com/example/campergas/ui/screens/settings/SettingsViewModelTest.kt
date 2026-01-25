@@ -8,6 +8,7 @@ import com.example.campergas.domain.model.ThemeMode
 import com.example.campergas.domain.usecase.ConfigureReadingIntervalsUseCase
 import com.example.campergas.domain.usecase.DeleteNonActiveCylindersUseCase
 import com.example.campergas.domain.usecase.GenerateTestDataUseCase
+import com.example.campergas.domain.usecase.SensorCalibrationUseCase
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -44,8 +45,9 @@ class SettingsViewModelTest {
     private val configureReadingIntervalsUseCase: ConfigureReadingIntervalsUseCase =
         mockk(relaxed = true)
     private val generateTestDataUseCase: GenerateTestDataUseCase = mockk(relaxed = true)
-    private val deleteNonActiveCylindersUseCase: DeleteNonActiveCylindersUseCase = 
+    private val deleteNonActiveCylindersUseCase: DeleteNonActiveCylindersUseCase =
         mockk(relaxed = true)
+    private val sensorCalibrationUseCase: SensorCalibrationUseCase = mockk(relaxed = true)
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
@@ -54,8 +56,9 @@ class SettingsViewModelTest {
     private val notificationsEnabledFlow = MutableStateFlow(true)
     private val gasLevelThresholdFlow = MutableStateFlow(2.0f)
     private val appLanguageFlow = MutableStateFlow(AppLanguage.SYSTEM)
-    private val weightIntervalFlow = MutableStateFlow(300)
-    private val inclinationIntervalFlow = MutableStateFlow(20)
+    private val weightIntervalFlow = MutableStateFlow(300) // 300 seconds = 5 minutes
+    private val inclinationIntervalFlow = MutableStateFlow(20) // 20 seconds
+    private val connectionStateFlow = MutableStateFlow(false) // BLE connection state
 
     @Before
     fun setUp() {
@@ -68,7 +71,7 @@ class SettingsViewModelTest {
         // Setup mock responses
         every { preferencesDataStore.themeMode } returns themeModeFlow
         every { preferencesDataStore.areNotificationsEnabled } returns notificationsEnabledFlow
-    every { preferencesDataStore.gasLevelThreshold } returns gasLevelThresholdFlow
+        every { preferencesDataStore.gasLevelThreshold } returns gasLevelThresholdFlow
         every { preferencesDataStore.appLanguage } returns appLanguageFlow
 
         coEvery { preferencesDataStore.setThemeMode(any()) } coAnswers {
@@ -92,11 +95,15 @@ class SettingsViewModelTest {
         coEvery { configureReadingIntervalsUseCase.setWeightReadInterval(any()) } returns Unit
         coEvery { configureReadingIntervalsUseCase.setInclinationReadInterval(any()) } returns Unit
 
+        // Mock sensor calibration use case
+        every { sensorCalibrationUseCase.connectionState } returns connectionStateFlow
+
         viewModel = SettingsViewModel(
             preferencesDataStore,
             configureReadingIntervalsUseCase,
             generateTestDataUseCase,
-            deleteNonActiveCylindersUseCase
+            deleteNonActiveCylindersUseCase,
+            sensorCalibrationUseCase
         )
     }
 
@@ -118,7 +125,7 @@ class SettingsViewModelTest {
         assertNull(state.error)
 
         // Verify weight and inclination intervals
-        assertEquals(5, viewModel.weightInterval.value) // 60s converted to 1 min
+        assertEquals(5, viewModel.weightInterval.value) // 300s converted to 5 min
         assertEquals(20, viewModel.inclinationInterval.value)
     }
 
@@ -149,7 +156,7 @@ class SettingsViewModelTest {
     fun `setThemeMode supports SYSTEM for backward compatibility`() = runTest {
         // Although UI doesn't offer SYSTEM option, ViewModel should still support it
         // for backward compatibility with existing stored preferences
-        
+
         // Act - Set to SYSTEM
         viewModel.setThemeMode(ThemeMode.SYSTEM)
         advanceUntilIdle()
@@ -181,7 +188,7 @@ class SettingsViewModelTest {
 
     @Test
     fun `setGasLevelThreshold updates preferences`() = runTest {
-        // Act
+        // Act - Test with kilogram value
         viewModel.setGasLevelThreshold(3.5f)
         advanceUntilIdle()
 
@@ -300,5 +307,102 @@ class SettingsViewModelTest {
 
         // Assert - UI state should update to English
         assertEquals(AppLanguage.ENGLISH, viewModel.uiState.value.language)
+    }
+
+    @Test
+    fun `isConnected state reflects sensor calibration use case connection state`() = runTest {
+        // Assert - Initial state should be disconnected
+        assertFalse(viewModel.isConnected.value)
+
+        // Change the connection state
+        connectionStateFlow.value = true
+        advanceUntilIdle()
+
+        // Assert - State should update
+        assertTrue(viewModel.isConnected.value)
+    }
+
+    @Test
+    fun `performTare calls sensor calibration use case and invokes success callback`() = runTest {
+        // Arrange
+        coEvery { sensorCalibrationUseCase.performTare() } returns Result.success(Unit)
+        var successCalled = false
+        var errorCalled = false
+
+        // Act
+        viewModel.performTare(
+            onSuccess = { successCalled = true },
+            onError = { errorCalled = true }
+        )
+        advanceUntilIdle()
+
+        // Assert
+        coVerify { sensorCalibrationUseCase.performTare() }
+        assertTrue(successCalled)
+        assertFalse(errorCalled)
+    }
+
+    @Test
+    fun `performTare invokes error callback on failure`() = runTest {
+        // Arrange
+        coEvery { sensorCalibrationUseCase.performTare() } returns Result.failure(Exception("Tare failed"))
+        var successCalled = false
+        var errorMessage: String? = null
+
+        // Act
+        viewModel.performTare(
+            onSuccess = { successCalled = true },
+            onError = { errorMessage = it }
+        )
+        advanceUntilIdle()
+
+        // Assert
+        coVerify { sensorCalibrationUseCase.performTare() }
+        assertFalse(successCalled)
+        assertEquals("Tare failed", errorMessage)
+    }
+
+    @Test
+    fun `performCalibration calls sensor calibration use case with weight and invokes success callback`() = runTest {
+        // Arrange
+        val testWeight = 2.5f
+        coEvery { sensorCalibrationUseCase.performCalibration(testWeight) } returns Result.success(Unit)
+        var successCalled = false
+        var errorCalled = false
+
+        // Act
+        viewModel.performCalibration(
+            testWeight,
+            onSuccess = { successCalled = true },
+            onError = { errorCalled = true }
+        )
+        advanceUntilIdle()
+
+        // Assert
+        coVerify { sensorCalibrationUseCase.performCalibration(testWeight) }
+        assertTrue(successCalled)
+        assertFalse(errorCalled)
+    }
+
+    @Test
+    fun `performCalibration invokes error callback on failure`() = runTest {
+        // Arrange
+        val testWeight = 2.5f
+        coEvery { sensorCalibrationUseCase.performCalibration(testWeight) } returns Result.failure(Exception("Calibration failed"))
+        var successCalled = false
+        var errorMessage: String? = null
+
+        // Act
+        viewModel.performCalibration(
+            testWeight,
+            onSuccess = { successCalled = true },
+            onError = { errorMessage = it }
+        )
+        advanceUntilIdle()
+
+        // Assert
+        coVerify { sensorCalibrationUseCase.performCalibration(testWeight) }
+        assertFalse(successCalled)
+        assertEquals("Calibration failed", errorMessage)
     }
 }

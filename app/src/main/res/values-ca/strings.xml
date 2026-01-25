@@ -372,4 +372,18 @@
     <string name="widget_stable_indicator">✓</string>
     <string name="widget_unstable_indicator">✗</string>
     <string name="widget_unknown_indicator">❓</string>
+
+    <!-- Sensor Calibration -->
+    <string name="settings_cal_title">Calibratge del Sensor</string>
+    <string name="settings_btn_tare">Tara (Posar a zero)</string>
+    <string name="settings_tare_desc">Assegureu-vos que la bàscula estigui buida.</string>
+    <string name="settings_lbl_weight">Pes Conegut (kg)</string>
+    <string name="settings_btn_cal">Calibrar</string>
+    <string name="settings_cal_instr">Col·loqueu el pes, després calibreu.</string>
+    <string name="msg_success_tare">Tara completada amb èxit</string>
+    <string name="msg_success_cal">Calibratge desat</string>
+    <string name="msg_error_not_connected">Sensor no connectat</string>
+    <string name="msg_error_calibration">Error de calibratge</string>
+    <string name="settings_cal_weight_placeholder">P. ex.: 2.50</string>
+    <string name="settings_cal_weight_error">Introdueix un pes vàlid</string>
 </resources>

@@ -350,6 +350,17 @@ fun SettingsScreen(
             }
         }
 
+        // Sensor Calibration section
+        SensorCalibrationCard(
+            isConnected = viewModel.isConnected.collectAsState().value,
+            onTare = { onSuccess, onError ->
+                viewModel.performTare(onSuccess, onError)
+            },
+            onCalibrate = { weight, onSuccess, onError ->
+                viewModel.performCalibration(weight, onSuccess, onError)
+            }
+        )
+
         // Test Data Management
         Card(
             modifier = Modifier.fillMaxWidth()
@@ -630,3 +641,181 @@ private fun languageLabel(language: AppLanguage): String {
     }
 }
 
+/**
+ * Sensor calibration card for tare and calibration operations.
+ *
+ * Provides UI for:
+ * - Tare (zeroing) the scale
+ * - Calibrating with a known weight
+ *
+ * Requires an active BLE connection to the sensor.
+ *
+ * @param isConnected Whether the sensor is currently connected
+ * @param onTare Callback for tare operation with success/error callbacks
+ * @param onCalibrate Callback for calibration with weight and success/error callbacks
+ */
+@Composable
+private fun SensorCalibrationCard(
+    isConnected: Boolean,
+    onTare: (onSuccess: (String) -> Unit, onError: (String) -> Unit) -> Unit,
+    onCalibrate: (weight: Float, onSuccess: (String) -> Unit, onError: (String) -> Unit) -> Unit
+) {
+    var calibrationWeightText by remember { mutableStateOf("") }
+    var feedbackMessage by remember { mutableStateOf<String?>(null) }
+    var isError by remember { mutableStateOf(false) }
+
+    // Localized messages
+    val successTareMsg = stringResource(R.string.msg_success_tare)
+    val successCalMsg = stringResource(R.string.msg_success_cal)
+    val errorNotConnectedMsg = stringResource(R.string.msg_error_not_connected)
+    val errorCalibrationMsg = stringResource(R.string.msg_error_calibration)
+
+    // Clear feedback message after delay
+    LaunchedEffect(feedbackMessage) {
+        if (feedbackMessage != null) {
+            kotlinx.coroutines.delay(3000)
+            feedbackMessage = null
+        }
+    }
+
+    Card(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.settings_cal_title),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            // Show feedback message if present
+            feedbackMessage?.let { message ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (isError) {
+                            MaterialTheme.colorScheme.errorContainer
+                        } else {
+                            MaterialTheme.colorScheme.primaryContainer
+                        }
+                    )
+                ) {
+                    Text(
+                        text = message,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = if (isError) {
+                            MaterialTheme.colorScheme.onErrorContainer
+                        } else {
+                            MaterialTheme.colorScheme.onPrimaryContainer
+                        },
+                        modifier = Modifier.padding(12.dp)
+                    )
+                }
+            }
+
+            // Tare section
+            Text(
+                text = stringResource(R.string.settings_tare_desc),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Button(
+                onClick = {
+                    if (!isConnected) {
+                        feedbackMessage = errorNotConnectedMsg
+                        isError = true
+                    } else {
+                        onTare(
+                            { _ ->
+                                feedbackMessage = successTareMsg
+                                isError = false
+                            },
+                            { _ ->
+                                feedbackMessage = errorCalibrationMsg
+                                isError = true
+                            }
+                        )
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = isConnected
+            ) {
+                Text(stringResource(R.string.settings_btn_tare))
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Calibration section
+            Text(
+                text = stringResource(R.string.settings_cal_instr),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            OutlinedTextField(
+                value = calibrationWeightText,
+                onValueChange = { newValue ->
+                    calibrationWeightText = newValue
+                },
+                label = { Text(stringResource(R.string.settings_lbl_weight)) },
+                placeholder = { Text(stringResource(R.string.settings_cal_weight_placeholder)) },
+                suffix = { Text(stringResource(R.string.settings_kg_suffix)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                enabled = isConnected,
+                isError = calibrationWeightText.isNotEmpty() &&
+                        calibrationWeightText.toFloatOrNull()?.let { it <= 0 } == true
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = {
+                    if (!isConnected) {
+                        feedbackMessage = errorNotConnectedMsg
+                        isError = true
+                    } else {
+                        val weight = calibrationWeightText.toFloatOrNull()
+                        if (weight != null && weight > 0) {
+                            onCalibrate(
+                                weight,
+                                { _ ->
+                                    feedbackMessage = successCalMsg
+                                    isError = false
+                                    calibrationWeightText = ""
+                                },
+                                { _ ->
+                                    feedbackMessage = errorCalibrationMsg
+                                    isError = true
+                                }
+                            )
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = isConnected &&
+                        calibrationWeightText.toFloatOrNull()?.let { it > 0 } == true
+            ) {
+                Text(stringResource(R.string.settings_btn_cal))
+            }
+
+            // Connection status hint
+            if (!isConnected) {
+                Text(
+                    text = stringResource(R.string.msg_error_not_connected),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
+        }
+    }
+}

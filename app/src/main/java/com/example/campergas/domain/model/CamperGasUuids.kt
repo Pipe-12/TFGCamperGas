@@ -59,6 +59,26 @@ object CamperGasUuids {
     const val INCLINATION_CHARACTERISTIC_UUID = "fedcba09-8765-4321-fedc-ba0987654321"
 
     /**
+     * UUID of the BLE characteristic for tare (zeroing) operation.
+     *
+     * This characteristic allows writing any value to trigger the tare operation
+     * on the sensor, which sets the current weight as zero reference.
+     * Type: WRITE
+     * Payload: Any value (e.g., "1")
+     */
+    const val TARE_CHARACTERISTIC_UUID = "12345678-1234-1234-1234-123456789abc"
+
+    /**
+     * UUID of the BLE characteristic for calibration operation.
+     *
+     * This characteristic accepts a JSON payload with the known weight value
+     * to calibrate the sensor's scale factor.
+     * Type: WRITE
+     * Format: JSON {"cal": float_value}
+     * Example: {"cal": 2.50} for 2.50 kg
+     */
+    const val CALIBRATION_CHARACTERISTIC_UUID = "a1b2c3d4-e5f6-4789-ab01-abcdef123456"
+    /**
      * Verifies if a BLE device is compatible with CamperGas.
      *
      * A device is compatible if it advertises the main CamperGas service UUID

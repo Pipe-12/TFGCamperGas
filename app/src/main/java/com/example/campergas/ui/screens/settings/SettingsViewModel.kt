@@ -8,6 +8,7 @@ import com.example.campergas.domain.model.ThemeMode
 import com.example.campergas.domain.usecase.ConfigureReadingIntervalsUseCase
 import com.example.campergas.domain.usecase.DeleteNonActiveCylindersUseCase
 import com.example.campergas.domain.usecase.GenerateTestDataUseCase
+import com.example.campergas.domain.usecase.SensorCalibrationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,13 +37,17 @@ class SettingsViewModel @Inject constructor(
     private val preferencesDataStore: PreferencesDataStore,
     private val configureReadingIntervalsUseCase: ConfigureReadingIntervalsUseCase,
     private val generateTestDataUseCase: GenerateTestDataUseCase,
-    private val deleteNonActiveCylindersUseCase: DeleteNonActiveCylindersUseCase
+    private val deleteNonActiveCylindersUseCase: DeleteNonActiveCylindersUseCase,
+    private val sensorCalibrationUseCase: SensorCalibrationUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
 
     /** Flow of UI state for the settings screen */
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
+
+    /** Flow of BLE connection state for calibration features */
+    val isConnected: StateFlow<Boolean> = sensorCalibrationUseCase.connectionState
 
     /** Flow of weight sensor reading interval in minutes */
     val weightInterval: StateFlow<Int> =
@@ -269,7 +274,71 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Performs tare (zero) operation on the connected sensor.
+     *
+     * Triggers the tare operation which sets the current weight reading
+     * as the zero reference point. The scale should be empty when called.
+     *
+     * @param onSuccess Callback invoked with localized success message
+     * @param onError Callback invoked with localized error message
+     */
+    fun performTare(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            try {
+                _operationStatus.value = "Performing tare..."
+                val result = sensorCalibrationUseCase.performTare()
 
+                result.fold(
+                    onSuccess = {
+                        _operationStatus.value = null
+                        onSuccess("success")
+                    },
+                    onFailure = { exception ->
+                        _operationStatus.value = null
+                        onError(exception.message ?: "Unknown error")
+                    }
+                )
+            } catch (exception: Exception) {
+                _operationStatus.value = null
+                onError(exception.message ?: "Unknown error")
+            }
+        }
+    }
+
+    /**
+     * Performs calibration with a known weight value.
+     *
+     * Sends the calibration command with the specified weight to adjust
+     * the sensor's scale factor. A reference weight should be placed on
+     * the scale before calling this function.
+     *
+     * @param knownWeight Weight in kilograms for calibration
+     * @param onSuccess Callback invoked with localized success message
+     * @param onError Callback invoked with localized error message
+     */
+    fun performCalibration(knownWeight: Float, onSuccess: (String) -> Unit, onError: (String) -> Unit) {
+        viewModelScope.launch {
+            try {
+                _operationStatus.value = "Performing calibration..."
+                val result = sensorCalibrationUseCase.performCalibration(knownWeight)
+
+                result.fold(
+                    onSuccess = {
+                        _operationStatus.value = null
+                        onSuccess("success")
+                    },
+                    onFailure = { exception ->
+                        _operationStatus.value = null
+                        onError(exception.message ?: "Unknown error")
+                    }
+                )
+            } catch (exception: Exception) {
+                _operationStatus.value = null
+                onError(exception.message ?: "Unknown error")
+            }
+        }
+    }
 }
 
 /**

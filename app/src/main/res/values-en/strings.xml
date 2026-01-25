@@ -372,4 +372,18 @@
     <string name="widget_stable_indicator">✓</string>
     <string name="widget_unstable_indicator">✗</string>
     <string name="widget_unknown_indicator">❓</string>
+    <!-- Sensor Calibration -->
+    <string name="settings_cal_title">Sensor Calibration</string>
+    <string name="settings_btn_tare">Tare (Set to Zero)</string>
+    <string name="settings_tare_desc">Ensure scale is empty before tapping.</string>
+    <string name="settings_lbl_weight">Known Weight (kg)</string>
+    <string name="settings_btn_cal">Calibrate</string>
+    <string name="settings_cal_instr">Place weight, then calibrate.</string>
+    <string name="msg_success_tare">Tare completed successfully</string>
+    <string name="msg_success_cal">Calibration saved</string>
+    <string name="msg_error_not_connected">Sensor not connected</string>
+    <string name="msg_error_calibration">Calibration error</string>
+    <string name="settings_cal_weight_placeholder">E.g., 2.50</string>
+    <string name="settings_cal_weight_error">Enter a valid weight</string>
+
 </resources>

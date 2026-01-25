@@ -192,4 +192,20 @@ class BleRepository @Inject constructor(
      * @return true if filter is enabled, false otherwise
      */
     fun isCompatibleFilterEnabled(): Boolean = bleDeviceScanner.isCompatibleFilterEnabled()
+
+    /**
+     * Performs tare (zero) operation on the connected sensor.
+     *
+     * @param callback Callback with success/failure result
+     */
+    fun performTare(callback: (Boolean) -> Unit) = camperGasBleService.performTare(callback)
+
+    /**
+     * Performs calibration with a known weight value.
+     *
+     * @param knownWeight Weight in kilograms for calibration
+     * @param callback Callback with success/failure result
+     */
+    fun performCalibration(knownWeight: Float, callback: (Boolean) -> Unit) =
+        camperGasBleService.performCalibration(knownWeight, callback)
 }
