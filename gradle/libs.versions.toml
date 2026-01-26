@@ -25,7 +25,7 @@ robolectric = "4.16"
 roomVersion = "2.8.4"
 scanner = "1.6.0"
 turbine = "1.2.1"
-ui = "1.10.0"
+ui = "1.10.1"
 uiToolingPreview = "1.10.1"
 appcompat = "1.7.1"
 
