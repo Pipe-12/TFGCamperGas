@@ -31,7 +31,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -147,64 +146,60 @@ fun ConsumptionScreen(
 
     // Date Pickers
     if (showStartDatePicker) {
+        val datePickerState = rememberDatePickerState()
         DatePickerDialog(
-            onDismissRequest = { },
+            onDismissRequest = { showStartDatePicker = false },
             confirmButton = {
                 TextButton(
-                    onClick = { }
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { selectedDate ->
+                            val startOfDay = selectedDate - (selectedDate % (24 * 60 * 60 * 1000L))
+                            viewModel.setDateRange(startOfDay, uiState.endDate)
+                        }
+                        showStartDatePicker = false
+                    }
                 ) {
                     Text(stringResource(R.string.consumption_accept))
                 }
             },
             dismissButton = {
                 TextButton(
-                    onClick = { }
+                    onClick = { showStartDatePicker = false }
                 ) {
                     Text(stringResource(R.string.consumption_cancel))
                 }
             }
         ) {
-            val datePickerState = rememberDatePickerState()
             DatePicker(state = datePickerState)
-
-            // Aplicar la date seleccionada when confirma
-            LaunchedEffect(datePickerState.selectedDateMillis) {
-                datePickerState.selectedDateMillis?.let { selectedDate ->
-                    val startOfDay = selectedDate - (selectedDate % (24 * 60 * 60 * 1000L))
-                    viewModel.setDateRange(startOfDay, uiState.endDate)
-                }
-            }
         }
     }
 
     if (showEndDatePicker) {
+        val datePickerState = rememberDatePickerState()
         DatePickerDialog(
-            onDismissRequest = { },
+            onDismissRequest = { showEndDatePicker = false },
             confirmButton = {
                 TextButton(
-                    onClick = { }
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { selectedDate ->
+                            val endOfDay = selectedDate + (24 * 60 * 60 * 1000L - 1)
+                            viewModel.setDateRange(uiState.startDate, endOfDay)
+                        }
+                        showEndDatePicker = false
+                    }
                 ) {
                     Text(stringResource(R.string.consumption_accept))
                 }
             },
             dismissButton = {
                 TextButton(
-                    onClick = { }
+                    onClick = { showEndDatePicker = false }
                 ) {
                     Text(stringResource(R.string.consumption_cancel))
                 }
             }
         ) {
-            val datePickerState = rememberDatePickerState()
             DatePicker(state = datePickerState)
-
-            // Aplicar la date seleccionada when confirma
-            LaunchedEffect(datePickerState.selectedDateMillis) {
-                datePickerState.selectedDateMillis?.let { selectedDate ->
-                    val endOfDay = selectedDate + (24 * 60 * 60 * 1000L - 1)
-                    viewModel.setDateRange(uiState.startDate, endOfDay)
-                }
-            }
         }
     }
 }
@@ -653,7 +648,6 @@ fun SimpleLineChart(
             }
         }
 
-        // Calculateste points
         val points = data.map { point ->
             val x =
                 leftPadding + ((point.date - minDate).toFloat() / dateRange) * (chartWidth - leftPadding - rightPadding)
