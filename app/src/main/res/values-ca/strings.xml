@@ -386,4 +386,12 @@
     <string name="msg_error_calibration">Error de calibratge</string>
     <string name="settings_cal_weight_placeholder">P. ex.: 2.50</string>
     <string name="settings_cal_weight_error">Introdueix un pes vàlid</string>
+    <string name="settings_section_appearance">Aparença</string>
+    <string name="settings_section_notifications">Notificacions</string>
+    <string name="settings_section_sensors">Sensors</string>
+    <string name="settings_section_calibration">Calibració</string>
+    <string name="settings_section_data_management">Gestió de dades</string>
+    <string name="settings_section_information">Informació</string>
+    <string name="settings_weight_interval_value">%d min</string>
+    <string name="settings_inclination_interval_value">%d s</string>
 </resources>
